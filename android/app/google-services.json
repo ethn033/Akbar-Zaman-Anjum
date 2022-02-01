@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "719160097309",
+    "project_id": "akbar-zman-anjum",
+    "storage_bucket": "akbar-zman-anjum.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719160097309:android:338d91ed788d48509664f4",
+        "android_client_info": {
+          "package_name": "com.pashto.literature.akbar.zaman.zanjum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "719160097309-d1eg1knjuq8ld2jh0golf7drpoj6vp18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjdHT8yXRAX6dbKMdwODjkDm3iCqc4u3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "719160097309-d1eg1knjuq8ld2jh0golf7drpoj6vp18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
