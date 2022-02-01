@@ -2,21 +2,26 @@
 
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/auth_controller.dart';
 import 'package:mula_jan_shayeri/controllers/helper_controller.dart';
+import 'package:mula_jan_shayeri/controllers/setting_controller.dart';
 import 'package:mula_jan_shayeri/controllers/widets_controller.dart';
 import 'package:mula_jan_shayeri/views/about/about_screen.dart';
 import 'package:mula_jan_shayeri/views/auth/login_screen.dart';
+import 'package:mula_jan_shayeri/views/profile/full_screen_image.dart';
 import 'package:package_info/package_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NavDrawer extends StatelessWidget {
-  NavDrawer({Key? key, required this.auth}) : super(key: key);
+  NavDrawer({Key? key, required this.auth, required this.setting})
+      : super(key: key);
 
   AuthController auth;
+  SettingController setting;
   HelperController helperController = Get.find();
   WidgetController widgetsController = Get.find();
   @override
@@ -30,10 +35,59 @@ class NavDrawer extends StatelessWidget {
           DrawerHeader(
             margin: EdgeInsets.zero,
             padding: EdgeInsets.all(0),
-            child: Image.asset(
-              'assets/images/icon.jpg',
-              width: double.infinity,
-              fit: BoxFit.cover,
+            child: GestureDetector(
+              onTap: () {
+                Get.back();
+                Get.to(
+                  () => ShowFullScreenImage(
+                    tag: "coverImage",
+                    url: setting.userModel.value.cover ?? "",
+                  ),
+                );
+              },
+              child: Hero(
+                tag: "coverImage",
+                child: Obx(
+                  () => CachedNetworkImage(
+                    height: size.height / 3.9,
+                    width: size.width,
+                    imageUrl: setting.userModel.value.cover ?? "",
+                    imageBuilder: (context, image) => Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                          image: image,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) => Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.grey[300],
+                      ),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                            image: AssetImage(
+                              "assets/images/no_image_found.png",
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
             ),
             decoration: BoxDecoration(
               color: Colors.white,

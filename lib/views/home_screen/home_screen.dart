@@ -436,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      drawer: NavDrawer(auth: authController),
+      drawer: NavDrawer(auth: authController, setting: settingController),
     );
   }
 
