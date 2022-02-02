@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.white10.withOpacity(0.7),
                                     textColor: Colors.white,
                                     child: Icon(
-                                      Icons.image_outlined,
+                                      Icons.edit,
                                       size: 19,
                                       color: Colors.black,
                                     ),
@@ -256,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white10.withOpacity(0.9),
                                         textColor: Colors.white,
                                         child: Icon(
-                                          Icons.image_outlined,
+                                          Icons.edit,
                                           size: 19,
                                           color: Colors.black,
                                         ),
@@ -273,158 +273,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 30,
-                  right: 30,
-                ),
-                child: Obx(
-                  () => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      authController.currentUser.value != null
-                          ? InkWell(
-                              onTap: () async {
-                                if (settingController.isNameUpdate.value) {
-                                  await saveUpdateName(nameTextController.text);
-                                  settingController.isNameUpdate.value = false;
-
-                                  return;
-                                }
-                                settingController.isNameUpdate.value = true;
-                                nameTextController.text =
-                                    settingController.userModel.value.name ??
-                                        '';
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(left: 5),
-                                child: settingController.isNameUpdate.value
-                                    ? Icon(
-                                        Icons.check,
-                                        color: Colors.green,
-                                      )
-                                    : Icon(
-                                        Icons.edit,
-                                        color: Colors.grey[900],
-                                      ),
-                              ),
-                            )
-                          : SizedBox(),
-                      Flexible(
-                        child: !settingController.isNameUpdate.value
-                            ? Text(
-                                settingController.userModel.value.name ??
-                                    'Loding..',
-                                style: TextStyle(
-                                  fontSize: 23,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            : TextFormField(
-                                // autofocus: false,
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                controller: nameTextController,
-                                onFieldSubmitted: (val) async {
-                                  await saveUpdateName(val);
-                                  settingController.isNameUpdate.value = false;
-                                },
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 20),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  fillColor: Colors.grey[200],
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ],
+              Obx(
+                () => Flexible(
+                    child: Text(
+                  settingController.userModel.value.name ?? '..Loding',
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
                   ),
-                ),
+                )),
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 30,
-                  right: 30,
-                ),
-                child: Obx(
-                  () => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Obx(
-                        () => authController.currentUser.value != null
-                            ? InkWell(
-                                onTap: () async {
-                                  if (settingController.isBioUpdate.value) {
-                                    await settingController
-                                        .saveUpdateBio(bioTextController.text);
-                                    settingController.isBioUpdate.value = false;
-                                    return;
-                                  }
-                                  settingController.isBioUpdate.value = true;
-                                  bioTextController.text =
-                                      settingController.userModel.value.bio!;
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 5),
-                                  child: settingController.isBioUpdate.value
-                                      ? Icon(
-                                          Icons.check,
-                                          color: Colors.green,
-                                        )
-                                      : Icon(
-                                          Icons.edit,
-                                          color: Colors.grey[900],
-                                        ),
-                                ),
-                              )
-                            : SizedBox(),
-                      ),
-                      Flexible(
-                        child: !settingController.isBioUpdate.value
-                            ? Text(
-                                settingController.userModel.value.bio ??
-                                    'Loding..',
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.grey[500],
-                                ),
-                              )
-                            : TextFormField(
-                                // autofocus: false,
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                controller: bioTextController,
-                                onFieldSubmitted: (val) async {
-                                  await saveUpdateBio(val);
-                                  settingController.isBioUpdate.value = false;
-                                },
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 20),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  fillColor: Colors.grey[200],
-                                  filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ],
+              Obx(
+                () => Flexible(
+                  child: Text(
+                    settingController.userModel.value.bio ?? 'Loding..',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                    ),
                   ),
                 ),
               ),

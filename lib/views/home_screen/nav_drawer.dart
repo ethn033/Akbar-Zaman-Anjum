@@ -103,6 +103,7 @@ class NavDrawer extends StatelessWidget {
                   }
                   return Text(
                     'Version ${packageInfo.data!.version}',
+                    style: TextStyle(fontSize: 12),
                   );
                 },
               )),
@@ -112,7 +113,6 @@ class NavDrawer extends StatelessWidget {
             child: Text(
               "Application",
               style: TextStyle(
-                color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -131,7 +131,6 @@ class NavDrawer extends StatelessWidget {
             child: Text(
               "Communication",
               style: TextStyle(
-                color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -170,7 +169,6 @@ class NavDrawer extends StatelessWidget {
             child: Text(
               "About",
               style: TextStyle(
-                color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),

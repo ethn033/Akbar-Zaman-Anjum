@@ -6,6 +6,7 @@ import 'package:mula_jan_shayeri/utils/constants.dart';
 class SettingController extends GetxController {
   Rx<UserModel> userModel = new UserModel().obs;
   var userRef = FirebaseFirestore.instance.collection("settings").doc("user");
+  var refFeedbacks = FirebaseFirestore.instance.collection("feedbacks");
   bool swithTheme = false;
 
   Rx<bool> isBioUpdate = false.obs;
@@ -87,5 +88,30 @@ class SettingController extends GetxController {
           .collection("hashtags")
           .add(element.toMap());
     });
+  }
+
+  Future<void> saveUpdateAbout(String about) async {
+    userModel.value.about = about;
+    return await userRef.update({'about': about});
+  }
+
+  Future<String> saveFeedback(String feedback) async {
+    DocumentReference<Map<String, dynamic>> request =
+        await refFeedbacks.add({'feedback': feedback});
+    return request.id;
+  }
+
+  Future<void> updateFeedback(String feedbackId, String feedback) async {
+    return await refFeedbacks.doc(feedbackId).set({'feedback': feedback});
+  }
+
+  Future<void> saveUpdatePhone(String val) async {
+    userModel.value.phone = val;
+    return await userRef.update({'phone': val});
+  }
+
+  Future<void> saveUpdateAddress(String val) async {
+    userModel.value.address = val;
+    return await userRef.update({'address': val});
   }
 }
