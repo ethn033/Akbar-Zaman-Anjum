@@ -62,7 +62,7 @@ class HomeMenu extends StatelessWidget {
               Get.to(() => ColumnScreen());
             },
             child: HomeCard(
-              title: "کالمونه/ لیکنې",
+              title: "مقالې/ لیکنې",
               icon: Icons.link,
             ),
           ),

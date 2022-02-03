@@ -72,7 +72,10 @@ class _MyAppState extends State<MyApp> {
                 indicatorColor: Colors.white,
                 canvasColor: Colors.black,
                 // next line is important!
-                appBarTheme: AppBarTheme(brightness: Brightness.dark)),
+                appBarTheme: AppBarTheme(
+                    backgroundColor: Colors.black87,
+                    foregroundColor: Colors.white),
+              ),
         home: FutureBuilder(
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {

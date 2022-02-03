@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/auth_controller.dart';
 import 'package:mula_jan_shayeri/controllers/helper_controller.dart';
 import 'package:mula_jan_shayeri/controllers/setting_controller.dart';
+import 'package:mula_jan_shayeri/views/about/about_screen.dart';
 import 'package:mula_jan_shayeri/views/auth/login_screen.dart';
 
 class SettingScrreen extends StatelessWidget {
@@ -44,177 +45,187 @@ class SettingScrreen extends StatelessWidget {
             right: 18,
           ),
           children: [
-            SettingsGroup(title: 'Genral Settings', children: [
-              SimpleSettingsTile(
-                title: 'Account Settings',
-                subtitle: 'Name, Status message, About',
-                leading: CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(
-                      settingController.userModel.value.image ?? ""),
-                ),
-                child: SettingsScreen(
-                  title: 'Account Settings',
-                  children: [
-                    Obx(
-                      () => TextInputSettingsTile(
-                        title: 'Account name',
-                        settingKey: keyName,
-                        keyboardType: TextInputType.name,
-                        initialValue:
-                            settingController.userModel.value.name ?? '',
-                        onChange: (val) async {
-                          await settingController.saveUpdateName(val).then(
-                                (value) => helperController.showToast(
-                                    title: 'Saved sucessfully.'),
-                              );
-                        },
+            Obx(() => authController.currentUser.value != null
+                ? SettingsGroup(title: 'Genral Settings', children: [
+                    SimpleSettingsTile(
+                      title: 'Account Settings',
+                      subtitle: 'Name, Status message, About',
+                      leading: CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                            settingController.userModel.value.image ?? ""),
+                      ),
+                      child: SettingsScreen(
+                        title: 'Account Settings',
+                        children: [
+                          Obx(
+                            () => TextInputSettingsTile(
+                              title: 'Account name',
+                              settingKey: keyName,
+                              keyboardType: TextInputType.name,
+                              initialValue:
+                                  settingController.userModel.value.name ?? '',
+                              onChange: (val) async {
+                                await settingController
+                                    .saveUpdateName(val)
+                                    .then(
+                                      (value) => helperController.showToast(
+                                          title: 'Saved sucessfully.'),
+                                    );
+                              },
+                            ),
+                          ),
+                          Obx(
+                            () => TextInputSettingsTile(
+                              title: 'Status message',
+                              settingKey: keyBio,
+                              initialValue:
+                                  settingController.userModel.value.bio ?? '',
+                              onChange: (val) async {
+                                await settingController.saveUpdateBio(val).then(
+                                    (value) => helperController.showToast(
+                                        title: 'Saved sucessfully.'));
+                              },
+                            ),
+                          ),
+                          Obx(
+                            () => TextInputSettingsTile(
+                              title: 'About',
+                              settingKey: keyAbout,
+                              keyboardType: TextInputType.name,
+                              initialValue:
+                                  settingController.userModel.value.about ?? '',
+                              onChange: (val) async {
+                                await settingController
+                                    .saveUpdateAbout(val)
+                                    .then(
+                                      (value) => helperController.showToast(
+                                          title: 'Saved sucessfully.'),
+                                    );
+                              },
+                            ),
+                          ),
+                          Obx(
+                            () => TextInputSettingsTile(
+                              title: 'Phone Number',
+                              settingKey: keyPhone,
+                              keyboardType: TextInputType.phone,
+                              initialValue:
+                                  settingController.userModel.value.phone ?? '',
+                              onChange: (val) async {
+                                await settingController
+                                    .saveUpdatePhone(val)
+                                    .then(
+                                      (value) => helperController.showToast(
+                                          title: 'Saved sucessfully.'),
+                                    );
+                              },
+                            ),
+                          ),
+                          Obx(
+                            () => TextInputSettingsTile(
+                              title: 'Address',
+                              settingKey: keyAddress,
+                              keyboardType: TextInputType.text,
+                              initialValue:
+                                  settingController.userModel.value.address ??
+                                      '',
+                              onChange: (val) async {
+                                await settingController
+                                    .saveUpdateAddress(val)
+                                    .then(
+                                      (value) => helperController.showToast(
+                                          title: 'Saved sucessfully.'),
+                                    );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Obx(
-                      () => TextInputSettingsTile(
-                        title: 'Status message',
-                        settingKey: keyBio,
-                        keyboardType: TextInputType.name,
-                        initialValue:
-                            settingController.userModel.value.bio ?? '',
-                        onChange: (val) async {
-                          await settingController.saveUpdateBio(val).then(
-                              (value) => helperController.showToast(
-                                  title: 'Saved sucessfully.'));
-                        },
+                    SimpleSettingsTile(
+                      title: 'Tiles Setting',
+                      subtitle: 'Home screen tiles',
+                      leading: Container(
+                          padding: EdgeInsets.all(9),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.purple),
+                          child: Icon(
+                            Icons.dashboard,
+                            color: Colors.white,
+                          )),
+                      child: SettingsScreen(
+                        title: 'Tiles Setting',
+                        children: [],
                       ),
                     ),
-                    Obx(
-                      () => TextInputSettingsTile(
-                        title: 'About',
-                        settingKey: keyAbout,
-                        keyboardType: TextInputType.name,
-                        initialValue:
-                            settingController.userModel.value.about ?? '',
-                        onChange: (val) async {
-                          await settingController.saveUpdateAbout(val).then(
-                                (value) => helperController.showToast(
-                                    title: 'Saved sucessfully.'),
-                              );
-                        },
+                    // ExpandableSettingsTile(
+                    //   title: 'Social Media Links',
+                    //   subtitle: 'Set links of your social media accounts',
+                    //   leading: Container(
+                    //     padding: EdgeInsets.all(9),
+                    //     decoration: BoxDecoration(
+                    //       shape: BoxShape.circle,
+                    //       color: Colors.blue,
+                    //     ),
+                    //     child: Icon(
+                    //       Icons.social_distance,
+                    //       color: Colors.white,
+                    //     ),
+                    //   ),
+                    //   children: <Widget>[
+                    //     SwitchSettingsTile(
+                    //       settingKey: keyEnableFacebook,
+                    //       title: 'Facebook',
+                    //       enabledLabel: 'Enabled',
+                    //       disabledLabel: 'Disabled',
+                    //       leading: Icon(Icons.facebook),
+                    //       onChange: (val) {},
+                    //     ),
+                    //     SwitchSettingsTile(
+                    //       settingKey: keyEnableTwitter,
+                    //       title: 'Twitter',
+                    //       enabledLabel: 'Enabled',
+                    //       disabledLabel: 'Disabled',
+                    //       leading: Container(
+                    //           height: 20,
+                    //           width: 20,
+                    //           clipBehavior: Clip.hardEdge,
+                    //           padding: EdgeInsets.all(1),
+                    //           decoration: BoxDecoration(
+                    //             shape: BoxShape.circle,
+                    //             color: Colors.blue,
+                    //           ),
+                    //           child: Image.asset(
+                    //             'assets/images/twitter_icon.png',
+                    //             fit: BoxFit.fill,
+                    //           )),
+                    //       onChange: (val) {},
+                    //     ),
+                    //   ],
+                    // ),
+                  ])
+                : SizedBox()),
+            SettingsGroup(
+              title: 'Application Theme',
+              children: [
+                SwitchSettingsTile(
+                  title: 'Dark Mode',
+                  settingKey: keyDarkMode,
+                  leading: Container(
+                      padding: EdgeInsets.all(9),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
                       ),
-                    ),
-                    Obx(
-                      () => TextInputSettingsTile(
-                        title: 'Phone Number',
-                        settingKey: keyPhone,
-                        keyboardType: TextInputType.phone,
-                        initialValue:
-                            settingController.userModel.value.phone ?? '',
-                        onChange: (val) async {
-                          await settingController.saveUpdatePhone(val).then(
-                                (value) => helperController.showToast(
-                                    title: 'Saved sucessfully.'),
-                              );
-                        },
-                      ),
-                    ),
-                    Obx(
-                      () => TextInputSettingsTile(
-                        title: 'Address',
-                        settingKey: keyAddress,
-                        keyboardType: TextInputType.text,
-                        initialValue:
-                            settingController.userModel.value.address ?? '',
-                        onChange: (val) async {
-                          await settingController.saveUpdateAddress(val).then(
-                                (value) => helperController.showToast(
-                                    title: 'Saved sucessfully.'),
-                              );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SimpleSettingsTile(
-                title: 'Tiles Setting',
-                subtitle: 'Home screen tiles',
-                leading: Container(
-                    padding: EdgeInsets.all(9),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.purple),
-                    child: Icon(
-                      Icons.dashboard,
-                      color: Colors.white,
-                    )),
-                child: SettingsScreen(
-                  title: 'Tiles Setting',
-                  children: [],
-                ),
-              ),
-              // ExpandableSettingsTile(
-              //   title: 'Social Media Links',
-              //   subtitle: 'Set links of your social media accounts',
-              //   leading: Container(
-              //     padding: EdgeInsets.all(9),
-              //     decoration: BoxDecoration(
-              //       shape: BoxShape.circle,
-              //       color: Colors.blue,
-              //     ),
-              //     child: Icon(
-              //       Icons.social_distance,
-              //       color: Colors.white,
-              //     ),
-              //   ),
-              //   children: <Widget>[
-              //     SwitchSettingsTile(
-              //       settingKey: keyEnableFacebook,
-              //       title: 'Facebook',
-              //       enabledLabel: 'Enabled',
-              //       disabledLabel: 'Disabled',
-              //       leading: Icon(Icons.facebook),
-              //       onChange: (val) {},
-              //     ),
-              //     SwitchSettingsTile(
-              //       settingKey: keyEnableTwitter,
-              //       title: 'Twitter',
-              //       enabledLabel: 'Enabled',
-              //       disabledLabel: 'Disabled',
-              //       leading: Container(
-              //           height: 20,
-              //           width: 20,
-              //           clipBehavior: Clip.hardEdge,
-              //           padding: EdgeInsets.all(1),
-              //           decoration: BoxDecoration(
-              //             shape: BoxShape.circle,
-              //             color: Colors.blue,
-              //           ),
-              //           child: Image.asset(
-              //             'assets/images/twitter_icon.png',
-              //             fit: BoxFit.fill,
-              //           )),
-              //       onChange: (val) {},
-              //     ),
-              //   ],
-              // ),
-              SettingsGroup(
-                title: 'Application Theme',
-                children: [
-                  SwitchSettingsTile(
-                    title: 'Dark Mode',
-                    settingKey: keyDarkMode,
-                    leading: Container(
-                        padding: EdgeInsets.all(9),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.blue,
-                        ),
-                        child: Icon(
-                          Icons.dark_mode,
-                          color: Colors.white,
-                        )),
-                    enabledLabel: 'Enabled',
-                    disabledLabel: 'Disabled',
-                  )
-                ],
-              )
-            ]),
+                      child: Icon(
+                        Icons.dark_mode,
+                        color: Colors.white,
+                      )),
+                  enabledLabel: 'Enabled',
+                  disabledLabel: 'Disabled',
+                )
+              ],
+            ),
             SettingsGroup(title: 'Security', children: [
               Obx(
                 () => SimpleSettingsTile(
@@ -241,6 +252,19 @@ class SettingScrreen extends StatelessWidget {
                         : Get.to(() => LoginScreen());
                   },
                 ),
+              ),
+            ]),
+            SettingsGroup(title: 'Communication', children: [
+              SimpleSettingsTile(
+                title: 'Contact Us',
+                subtitle: 'Reach us using our social accounts',
+                leading: Container(
+                  padding: EdgeInsets.all(9),
+                  decoration:
+                      BoxDecoration(shape: BoxShape.circle, color: Colors.lime),
+                  child: Icon(Icons.contact_page, color: Colors.white),
+                ),
+                onTap: () => Get.to(() => AboutScreen()),
               ),
               SimpleSettingsTile(
                 title: 'Feedback',
@@ -293,7 +317,7 @@ class SettingScrreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ]),
+            ])
           ]),
     );
   }

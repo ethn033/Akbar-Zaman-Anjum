@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/auth_controller.dart';
@@ -165,12 +164,12 @@ class PoetryScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    authController.currentUser.value != null
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        authController.currentUser.value != null
+                                            ? Container(
                                                 child: PopupMenuButton(
                                                   onSelected: (String option) =>
                                                       onOptionSelect(
@@ -192,23 +191,20 @@ class PoetryScreen extends StatelessWidget {
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 16.0),
-                                                child: Directionality(
-                                                    textDirection:
-                                                        TextDirection.ltr,
-                                                    child: Text(
-                                                      '$postDate',
-                                                      style: TextStyle(
-                                                          color: Colors.grey),
-                                                    )),
                                               )
-                                            ],
-                                          )
-                                        : SizedBox(),
+                                            : SizedBox(),
+                                        Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Directionality(
+                                              textDirection: TextDirection.ltr,
+                                              child: Text(
+                                                '$postDate',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              )),
+                                        )
+                                      ],
+                                    ),
                                     InteractiveViewer(
                                       minScale: 0.5,
                                       maxScale: 3.0,

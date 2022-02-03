@@ -11,6 +11,7 @@ class SettingController extends GetxController {
 
   Rx<bool> isBioUpdate = false.obs;
   Rx<bool> isNameUpdate = false.obs;
+  Rx<bool> isAboutUpdate = false.obs;
 
   @override
   Future<void> onInit() async {

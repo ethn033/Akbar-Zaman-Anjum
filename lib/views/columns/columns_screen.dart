@@ -1,7 +1,10 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/auth_controller.dart';
 import 'package:mula_jan_shayeri/controllers/columns_controller.dart';
@@ -165,38 +168,37 @@ class ColumnScreen extends StatelessWidget {
                                   textDirection: TextDirection.rtl,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    authController.currentUser.value != null
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                child: PopupMenuButton(
-                                                  onSelected: (String option) =>
-                                                      onOptionSelect(
-                                                          option,
-                                                          columnsController
-                                                              .columns[index]),
-                                                  itemBuilder: (context) => [
-                                                    PopupMenuItem(
-                                                      value: 'delete',
-                                                      child: Text(
-                                                        'Delete',
-                                                      ),
-                                                    ),
-                                                    PopupMenuItem(
-                                                      value: 'edit',
-                                                      child: Text(
-                                                        'Edit',
-                                                      ),
-                                                    ),
-                                                  ],
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: PopupMenuButton(
+                                            onSelected: (String option) =>
+                                                onOptionSelect(
+                                                    option,
+                                                    columnsController
+                                                        .columns[index]),
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem(
+                                                value: 'delete',
+                                                child: Text(
+                                                  'Delete',
                                                 ),
                                               ),
-                                              Padding(
+                                              PopupMenuItem(
+                                                value: 'edit',
+                                                child: Text(
+                                                  'Edit',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        authController.currentUser.value != null
+                                            ? Padding(
                                                 padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 16.0),
+                                                    const EdgeInsets.all(16.0),
                                                 child: Directionality(
                                                     textDirection:
                                                         TextDirection.ltr,
@@ -206,20 +208,24 @@ class ColumnScreen extends StatelessWidget {
                                                           color: Colors.grey),
                                                     )),
                                               )
-                                            ],
-                                          )
-                                        : SizedBox(),
+                                            : SizedBox(),
+                                      ],
+                                    ),
                                     Container(
                                       width: double.infinity,
                                       alignment: Alignment.center,
                                       padding:
                                           EdgeInsets.only(left: 30, right: 30),
-                                      child: Text(
-                                          columnsController
-                                              .columns[index].column_text!,
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              TextStyle(color: Colors.black)),
+                                      child: quill.QuillEditor.basic(
+                                        readOnly: true,
+                                        controller: new quill.QuillController(
+                                            document: quill.Document.fromJson(
+                                              jsonDecode(columnsController
+                                                  .columns[index].column_text!),
+                                            ),
+                                            selection: TextSelection.collapsed(
+                                                offset: 0)),
+                                      ),
                                     ),
                                     SizedBox(height: 15),
                                     Center(
