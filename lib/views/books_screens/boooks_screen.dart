@@ -41,12 +41,65 @@ class BooksScreen extends StatelessWidget {
                       crossAxisSpacing: 4.0,
                       children: booksController.books.map((bookModel) {
                         return GridTile(
+                          header: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              authController.currentUser.value != null
+                                  ? Container(
+                                      child: PopupMenuButton(
+                                        onSelected: (String option) async {
+                                          switch (option) {
+                                            case 'delete':
+                                              {
+                                                await helperController
+                                                    .showDialog(
+                                                  title: 'Delete Book',
+                                                  middleText:
+                                                      'Are you sure you want to delete this Book?',
+                                                  onPressedConfirm: () async {
+                                                    Get.back();
+                                                    await helperController
+                                                        .showLoadingDialog(
+                                                            title: 'Loading..');
+                                                    booksController
+                                                        .deleteBooks(bookModel);
+                                                    await helperController
+                                                        .hideLoadingDialog();
+                                                  },
+                                                );
+
+                                                break;
+                                              }
+                                          }
+                                        },
+                                        itemBuilder: (context) => [
+                                          PopupMenuItem(
+                                            value: 'delete',
+                                            child: Text(
+                                              'Delete',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : SizedBox(),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Directionality(
+                                    textDirection: TextDirection.ltr,
+                                    child: Text(
+                                      '09/03/2022',
+                                      style: TextStyle(color: Colors.grey),
+                                    )),
+                              )
+                            ],
+                          ),
                           child: InkWell(
                             onTap: () {
                               Get.to(
                                 () => ReadPdfScreen(
-                                  url: bookModel.url ?? "",
-                                  bookName: bookModel.name ?? "",
+                                  url: bookModel.url!,
+                                  bookName: bookModel.name!,
                                 ),
                               );
                             },
@@ -55,97 +108,45 @@ class BooksScreen extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
-                              child: Column(
-                                textDirection: TextDirection.rtl,
-                                children: [
-                                  Expanded(
-                                    flex: 5,
-                                    child: Container(
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl: bookModel.thumbnail!,
-                                        imageBuilder: (context, image) =>
-                                            Container(
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: image,
-                                              fit: BoxFit.contain,
-                                            ),
-                                          ),
-                                        ),
-                                        placeholder: (context, url) =>
-                                            Container(
-                                          color: Colors.grey,
-                                          child: Center(
-                                            child: CircularProgressIndicator(
-                                              color: Colors.grey[400],
-                                            ),
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) {
-                                          return Image.asset(
-                                            "assets/images/no_image_found.png",
-                                            fit: BoxFit.contain,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: FittedBox(
+                              child: Container(
+                                margin: EdgeInsets.symmetric(vertical: 40),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: bookModel.thumbnail ?? '',
+                                  imageBuilder: (context, image) => Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: image,
                                         fit: BoxFit.contain,
-                                        child: Text(
-                                          bookModel.name ?? "Book Name",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                        ),
                                       ),
                                     ),
                                   ),
-                                  authController.currentUser.value != null
-                                      ? Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            child: widgetsController
-                                                .buttonWithIcon(
-                                              onPressed: () async {
-                                                helperController.showDialog(
-                                                    title: "Delete Book",
-                                                    middleText:
-                                                        'Are you sure to delete ${bookModel.name}',
-                                                    onPressedConfirm: () async {
-                                                      await booksController
-                                                          .deleteBooks(
-                                                              bookModel)
-                                                          .then((value) {
-                                                        helperController.showToast(
-                                                            title:
-                                                                'Deleted successfully!',
-                                                            color:
-                                                                Colors.green);
-                                                        booksController
-                                                            .getBooks();
-                                                      }).catchError((onError) {
-                                                        helperController.showToast(
-                                                            title:
-                                                                'Some error occured $onError',
-                                                            color: Colors.red);
-                                                      });
-                                                    });
-                                              },
-                                              icon: Icon(Icons.delete),
-                                              label: "Delete Book",
-                                              width: double.minPositive,
-                                              backgroundColor: Colors.red,
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox(),
-                                ],
+                                  placeholder: (context, url) => Container(
+                                    color: Colors.grey,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.grey[400],
+                                      ),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) {
+                                    return Image.asset(
+                                      "assets/images/no_image_found.png",
+                                      fit: BoxFit.contain,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          footer: Container(
+                            height: 40,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                bookModel.name ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),

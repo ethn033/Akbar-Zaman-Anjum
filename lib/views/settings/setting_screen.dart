@@ -12,6 +12,7 @@ import 'package:mula_jan_shayeri/controllers/helper_controller.dart';
 import 'package:mula_jan_shayeri/controllers/setting_controller.dart';
 import 'package:mula_jan_shayeri/views/about/about_screen.dart';
 import 'package:mula_jan_shayeri/views/auth/login_screen.dart';
+import 'package:mula_jan_shayeri/views/create_screens/create_about.dart';
 
 class SettingScrreen extends StatelessWidget {
   SettingScrreen({Key? key}) : super(key: key);
@@ -76,7 +77,7 @@ class SettingScrreen extends StatelessWidget {
                               },
                             ),
                           ),
-
+                          Divider(),
                           ListTile(
                             onTap: () async =>
                                 await helperController.showDialog(
@@ -119,54 +120,11 @@ class SettingScrreen extends StatelessWidget {
                             ),
                             subtitle: Obx(() => Text(
                                   settingController.userModel.value.bio ?? '',
-                                  maxLines: 3,
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 )),
                           ),
-
-                          // TextInputSettingsTile(
-                          //   title: 'Status message',
-                          //   settingKey: keyBio,
-                          //   initialValue:
-                          //       settingController.userModel.value.bio ?? '',
-                          //   onChange: (val) async {
-                          //     await settingController.updateUser(
-                          //         data: {'bio': val},
-                          //         helperController: helperController);
-                          //   },
-                          // ),
-                          // ),
-                          ListTile(
-                            title: Text(
-                              'About',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                            subtitle: Obx(() => quill.QuillEditor(
-                                  controller: new quill.QuillController(
-                                    document: quill.Document.fromJson(
-                                      jsonDecode(settingController
-                                          .userModel.value.about!),
-                                    ),
-                                    selection:
-                                        TextSelection.collapsed(offset: 0),
-                                  ),
-                                  scrollController: new ScrollController(
-                                    initialScrollOffset: 0.0,
-                                    keepScrollOffset: false,
-                                  ),
-                                  focusNode: FocusNode(),
-                                  padding: EdgeInsets.all(0),
-                                  autoFocus: false,
-                                  expands: false,
-                                  scrollable: false,
-                                  readOnly: true,
-                                  maxHeight: 100,
-                                  placeholder: 'your about text.',
-                                )),
-                            onTap: () {
-                              print('object');
-                            },
-                          ),
+                          Divider(),
                           Obx(
                             () => TextInputSettingsTile(
                               title: 'Phone Number',
@@ -181,6 +139,7 @@ class SettingScrreen extends StatelessWidget {
                               },
                             ),
                           ),
+                          Divider(),
                           Obx(
                             () => TextInputSettingsTile(
                               title: 'Address',
@@ -195,6 +154,31 @@ class SettingScrreen extends StatelessWidget {
                                     helperController: helperController);
                               },
                             ),
+                          ),
+                          Divider(),
+                          ListTile(
+                            title: Text(
+                              'About',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            subtitle: Obx(() {
+                              quill.QuillController quillController =
+                                  new quill.QuillController(
+                                document: quill.Document.fromJson(
+                                  jsonDecode(
+                                      settingController.userModel.value.about!),
+                                ),
+                                selection: TextSelection.collapsed(offset: 0),
+                              );
+
+                              return Text(
+                                  quillController.document.toPlainText(),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis);
+                            }),
+                            onTap: () {
+                              Get.to(() => CreateAboutScreen());
+                            },
                           ),
                         ],
                       ),

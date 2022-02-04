@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/helper_controller.dart';
 import 'package:mula_jan_shayeri/views/columns/columns_screen.dart';
 import 'package:mula_jan_shayeri/views/poetry/poetry_screen.dart';
-import 'package:mula_jan_shayeri/views/profile/about_screen.dart';
+import 'package:mula_jan_shayeri/views/profile/about_author_screen.dart';
 import 'package:mula_jan_shayeri/views/books_screens/boooks_screen.dart';
 import 'package:mula_jan_shayeri/views/about/social_contact_screen.dart';
 import 'package:mula_jan_shayeri/views/partials/widgets.dart';

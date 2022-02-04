@@ -190,7 +190,7 @@ class BioScreen extends StatelessWidget {
                 ),
                 Obx(
                   () => Text(
-                    settingController.userModel.value.name ?? Constants.name,
+                    settingController.userModel.value.name ?? '',
                     style: TextStyle(
                       fontSize: 23,
                       color: Colors.black,
@@ -198,15 +198,42 @@ class BioScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Obx(
+                          () => Text(
+                            'تلیفون: ${settingController.userModel.value.phone ?? ''}',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        Obx(
+                          () => Text(
+                            'پته: ${settingController.userModel.value.address ?? ''}',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ]),
+                ),
                 Container(
-                  padding: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 3,
-                  ),
-                  child: quill.QuillEditor.basic(
+                  child: quill.QuillEditor(
+                    padding: EdgeInsets.all(15),
+                    expands: false,
                     controller: _controller,
                     readOnly: true,
+                    autoFocus: false,
+                    focusNode: new FocusNode(
+                      canRequestFocus: false,
+                    ),
+                    scrollController: new ScrollController(),
+                    scrollable: true,
+                    scrollPhysics: BouncingScrollPhysics(),
                   ),
                 ),
               ],
