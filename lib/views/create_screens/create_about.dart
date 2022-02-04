@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
-import 'package:mula_jan_shayeri/controllers/columns_controller.dart';
 import 'package:mula_jan_shayeri/controllers/helper_controller.dart';
 import 'package:mula_jan_shayeri/controllers/setting_controller.dart';
 import 'package:mula_jan_shayeri/controllers/widets_controller.dart';
@@ -21,10 +20,15 @@ class CreateAboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    quillController = quill.QuillController(
-        document: quill.Document.fromJson(
-            jsonDecode(settingController.userModel.value.about ?? '')),
-        selection: new TextSelection(baseOffset: 0, extentOffset: 0));
+    if (settingController.userModel.value.about != null &&
+        settingController.userModel.value.about != '') {
+      quillController = quill.QuillController(
+          document: quill.Document.fromJson(
+              jsonDecode(settingController.userModel.value.about ?? '')),
+          selection: new TextSelection(baseOffset: 0, extentOffset: 0));
+    } else {
+      quillController = quill.QuillController.basic();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('د خپل ځان په اړه ولیکئ'),

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/setting_controller.dart';
-import 'package:mula_jan_shayeri/utils/constants.dart';
 import 'package:mula_jan_shayeri/views/profile/full_screen_image.dart';
 
 class BioScreen extends StatelessWidget {
@@ -18,10 +17,16 @@ class BioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    _controller = new quill.QuillController(
-        document: quill.Document.fromJson(
-            jsonDecode(settingController.userModel.value.about!)),
-        selection: TextSelection.collapsed(offset: 0));
+    if (settingController.userModel.value.about != null &&
+        settingController.userModel.value.about != '') {
+      _controller = new quill.QuillController(
+          document: quill.Document.fromJson(
+            jsonDecode(settingController.userModel.value.about!),
+          ),
+          selection: TextSelection.collapsed(offset: 0));
+    } else {
+      _controller = quill.QuillController.basic();
+    }
     return Scaffold(
       body: SafeArea(
         child: Directionality(

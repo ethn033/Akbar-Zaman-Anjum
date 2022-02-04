@@ -19,7 +19,7 @@ class SettingScrreen extends StatelessWidget {
   SettingController settingController = Get.find();
   HelperController helperController = Get.find();
   AuthController authController = Get.find();
-
+  late quill.QuillController quillController;
   TextEditingController bioTextController = new TextEditingController();
 
   static const keyName = 'name-key';
@@ -162,14 +162,21 @@ class SettingScrreen extends StatelessWidget {
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                             subtitle: Obx(() {
-                              quill.QuillController quillController =
-                                  new quill.QuillController(
-                                document: quill.Document.fromJson(
-                                  jsonDecode(
-                                      settingController.userModel.value.about!),
-                                ),
-                                selection: TextSelection.collapsed(offset: 0),
-                              );
+                              if (settingController.userModel.value.about !=
+                                      null &&
+                                  settingController.userModel.value.about !=
+                                      '') {
+                                quillController = new quill.QuillController(
+                                  document: quill.Document.fromJson(
+                                    jsonDecode(settingController
+                                        .userModel.value.about!),
+                                  ),
+                                  selection: TextSelection.collapsed(offset: 0),
+                                );
+                              } else {
+                                quillController =
+                                    new quill.QuillController.basic();
+                              }
 
                               return Text(
                                   quillController.document.toPlainText(),
