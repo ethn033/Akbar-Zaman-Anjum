@@ -151,23 +151,27 @@ class CreateHashtagScreen extends StatelessWidget {
     }
 
     if (hashtagTextController.text.trim().toLowerCase().isEmpty) {
-      helperController.showToast(title: 'Please write a tag to save.');
+      helperController.showToast(
+          title: 'Please write a tag to save.', color: Colors.red);
       return;
     }
     String tag = '#' + hashtagTextController.text.trim().toLowerCase();
 
     if (await poetryController.isTagExists(tag)) {
-      helperController.showToast(title: 'Tag already exists.');
+      helperController.showToast(
+          title: 'Tag already exists.', color: Colors.red);
       return;
     }
 
     poetryController.uploading.value = true;
     await poetryController.saveHashTag(tag).then((_) async {
-      helperController.showToast(title: 'Saved Successfully.');
+      helperController.showToast(
+          title: 'Saved Successfully.', color: Colors.green);
       hashtagTextController.text = '';
     }).catchError((onError) {
       helperController.showToast(
-          title: 'Error occured while saving hashtag $onError.');
+          title: 'Error occured while saving hashtag $onError.',
+          color: Colors.red);
     });
     poetryController.uploading.value = false;
   }

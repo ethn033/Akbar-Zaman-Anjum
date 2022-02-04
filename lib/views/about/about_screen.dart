@@ -12,7 +12,6 @@ class AboutScreen extends StatelessWidget {
   HelperController helperController = Get.find();
   @override
   Widget build(BuildContext context) {
-    settingController.getUser();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(

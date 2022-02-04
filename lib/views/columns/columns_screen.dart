@@ -270,11 +270,14 @@ class ColumnScreen extends StatelessWidget {
                                                         .then((_) {
                                                       helperController
                                                           .showToast(
-                                                              title: "Liked!");
+                                                              title: "Liked!",
+                                                              color:
+                                                                  Colors.green);
                                                     }).catchError((onError) {
                                                       helperController.showToast(
                                                           title:
-                                                              "Some error occured.");
+                                                              "Some error occured.",
+                                                          color: Colors.red);
                                                     });
                                                   },
                                                   icon: Icon(
@@ -356,7 +359,8 @@ class ColumnScreen extends StatelessWidget {
                   }
                 }
 
-                helperController.showToast(title: 'Deleted successfully!');
+                helperController.showToast(
+                    title: 'Deleted successfully!', color: Colors.green);
               });
               columnsController.deleting.value = false;
             });

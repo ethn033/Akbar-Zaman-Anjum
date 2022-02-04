@@ -14,10 +14,13 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Settings.init(cacheProvider: SharePreferenceCache());
+
   if (Platform.isAndroid) {
     WebView.platform = SurfaceAndroidWebView();
   }
+
   Get.put(HelperController());
   Get.put(WidgetController());
 

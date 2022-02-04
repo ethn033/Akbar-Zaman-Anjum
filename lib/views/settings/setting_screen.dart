@@ -1,7 +1,10 @@
 // ignore_for_file: must_be_immutable, unnecessary_null_comparison
 
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/auth_controller.dart';
@@ -15,6 +18,8 @@ class SettingScrreen extends StatelessWidget {
   SettingController settingController = Get.find();
   HelperController helperController = Get.find();
   AuthController authController = Get.find();
+
+  TextEditingController bioTextController = new TextEditingController();
 
   static const keyName = 'name-key';
   static const keyBio = 'bio-key';
@@ -65,44 +70,102 @@ class SettingScrreen extends StatelessWidget {
                               initialValue:
                                   settingController.userModel.value.name ?? '',
                               onChange: (val) async {
-                                await settingController
-                                    .saveUpdateName(val)
-                                    .then(
-                                      (value) => helperController.showToast(
-                                          title: 'Saved sucessfully.'),
-                                    );
+                                await settingController.updateUser(
+                                    data: {'name': val},
+                                    helperController: helperController);
                               },
                             ),
                           ),
-                          Obx(
-                            () => TextInputSettingsTile(
+
+                          ListTile(
+                            onTap: () async =>
+                                await helperController.showDialog(
                               title: 'Status message',
-                              settingKey: keyBio,
-                              initialValue:
+                              middleText: 'Update status message',
+                              content: Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: TextFormField(
+                                  enabled: true,
+                                  onChanged: (val) {
+                                    bioTextController.text = val;
+                                  },
+                                  maxLines: 3,
+                                  autofocus: true,
+                                  initialValue:
+                                      settingController.userModel.value.bio ??
+                                          '',
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter status message',
+                                    border: OutlineInputBorder(),
+                                    labelText: "Enter email",
+                                  ),
+                                ),
+                              ),
+                              onPressedConfirm: () async {
+                                Get.back();
+                                await helperController.showLoadingDialog(
+                                    title: 'Saving..');
+                                await settingController.updateUser(
+                                    helperController: helperController,
+                                    data: {
+                                      'bio': bioTextController.text.trim()
+                                    });
+                                Get.back();
+                              },
+                            ),
+                            title: Text(
+                              'Status Text',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            subtitle: Obx(() => Text(
                                   settingController.userModel.value.bio ?? '',
-                              onChange: (val) async {
-                                await settingController.saveUpdateBio(val).then(
-                                    (value) => helperController.showToast(
-                                        title: 'Saved sucessfully.'));
-                              },
-                            ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                )),
                           ),
-                          Obx(
-                            () => TextInputSettingsTile(
-                              title: 'About',
-                              settingKey: keyAbout,
-                              keyboardType: TextInputType.name,
-                              initialValue:
-                                  settingController.userModel.value.about ?? '',
-                              onChange: (val) async {
-                                await settingController
-                                    .saveUpdateAbout(val)
-                                    .then(
-                                      (value) => helperController.showToast(
-                                          title: 'Saved sucessfully.'),
-                                    );
-                              },
+
+                          // TextInputSettingsTile(
+                          //   title: 'Status message',
+                          //   settingKey: keyBio,
+                          //   initialValue:
+                          //       settingController.userModel.value.bio ?? '',
+                          //   onChange: (val) async {
+                          //     await settingController.updateUser(
+                          //         data: {'bio': val},
+                          //         helperController: helperController);
+                          //   },
+                          // ),
+                          // ),
+                          ListTile(
+                            title: Text(
+                              'About',
+                              style: TextStyle(fontWeight: FontWeight.w500),
                             ),
+                            subtitle: Obx(() => quill.QuillEditor(
+                                  controller: new quill.QuillController(
+                                    document: quill.Document.fromJson(
+                                      jsonDecode(settingController
+                                          .userModel.value.about!),
+                                    ),
+                                    selection:
+                                        TextSelection.collapsed(offset: 0),
+                                  ),
+                                  scrollController: new ScrollController(
+                                    initialScrollOffset: 0.0,
+                                    keepScrollOffset: false,
+                                  ),
+                                  focusNode: FocusNode(),
+                                  padding: EdgeInsets.all(0),
+                                  autoFocus: false,
+                                  expands: false,
+                                  scrollable: false,
+                                  readOnly: true,
+                                  maxHeight: 100,
+                                  placeholder: 'your about text.',
+                                )),
+                            onTap: () {
+                              print('object');
+                            },
                           ),
                           Obx(
                             () => TextInputSettingsTile(
@@ -112,12 +175,9 @@ class SettingScrreen extends StatelessWidget {
                               initialValue:
                                   settingController.userModel.value.phone ?? '',
                               onChange: (val) async {
-                                await settingController
-                                    .saveUpdatePhone(val)
-                                    .then(
-                                      (value) => helperController.showToast(
-                                          title: 'Saved sucessfully.'),
-                                    );
+                                await settingController.updateUser(
+                                    data: {'phone': val},
+                                    helperController: helperController);
                               },
                             ),
                           ),
@@ -130,12 +190,9 @@ class SettingScrreen extends StatelessWidget {
                                   settingController.userModel.value.address ??
                                       '',
                               onChange: (val) async {
-                                await settingController
-                                    .saveUpdateAddress(val)
-                                    .then(
-                                      (value) => helperController.showToast(
-                                          title: 'Saved sucessfully.'),
-                                    );
+                                await settingController.updateUser(
+                                    data: {'address': val},
+                                    helperController: helperController);
                               },
                             ),
                           ),
@@ -301,7 +358,8 @@ class SettingScrreen extends StatelessWidget {
                               .updateFeedback(feedbackId, feedback)
                               .then((_) {
                             helperController.showToast(
-                                title: 'Feedback updated successfully.');
+                                title: 'Feedback updated successfully.',
+                                color: Colors.green);
                           });
                           return;
                         }
@@ -310,7 +368,8 @@ class SettingScrreen extends StatelessWidget {
                         if (key != '') {
                           await Settings.setValue<String>(keyIdFeebdack, key);
                           helperController.showToast(
-                              title: 'Feedback saved successfully.');
+                              title: 'Feedback saved successfully.',
+                              color: Colors.green);
                         }
                       },
                     )
@@ -324,9 +383,11 @@ class SettingScrreen extends StatelessWidget {
 
   Future logoutUser() async {
     await authController.logoutUser().then((value) {
-      helperController.showToast(title: "Account logged out successfully.");
+      helperController.showToast(
+          title: "Account logged out successfully.", color: Colors.green);
     }).catchError((error) {
-      helperController.showToast(title: "Some error occured $error.");
+      helperController.showToast(
+          title: "Some error occured $error.", color: Colors.red);
     });
   }
 }

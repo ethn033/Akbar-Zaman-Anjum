@@ -145,11 +145,11 @@ class HelperController extends GetxController {
 
   void showToast({
     required String title,
-    Color? color,
+    required Color color,
   }) {
     Fluttertoast.showToast(
       msg: title,
-      toastLength: Toast.LENGTH_SHORT,
+      toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: color,
@@ -253,9 +253,9 @@ class HelperController extends GetxController {
       Uint8List? bytes =
           await FirebaseStorage.instance.refFromURL(path).getData();
       f.writeAsBytesSync(bytes!);
-      showToast(title: "Saved to: ${f.path}");
+      showToast(title: "Saved to: ${f.path}", color: Colors.green);
     } on FirebaseException catch (e) {
-      showToast(title: e.message.toString());
+      showToast(title: e.message.toString(), color: Colors.red);
     }
   }
 
@@ -268,7 +268,7 @@ class HelperController extends GetxController {
     await FlutterClipboard.copy(
             '$text\nhttps://play.google.com/store/apps/details?id=${pckgInfo!.packageName}')
         .then(
-      (value) => showToast(title: 'Copied to Clipbord!'),
+      (value) => showToast(title: 'Copied to Clipbord!', color: Colors.green),
     );
   }
 

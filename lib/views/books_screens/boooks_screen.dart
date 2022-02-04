@@ -122,19 +122,18 @@ class BooksScreen extends StatelessWidget {
                                                           .deleteBooks(
                                                               bookModel)
                                                           .then((value) {
-                                                        helperController
-                                                            .showToast(
-                                                          title:
-                                                              'Deleted successfully!',
-                                                        );
+                                                        helperController.showToast(
+                                                            title:
+                                                                'Deleted successfully!',
+                                                            color:
+                                                                Colors.green);
                                                         booksController
                                                             .getBooks();
                                                       }).catchError((onError) {
-                                                        helperController
-                                                            .showToast(
-                                                          title:
-                                                              'Some error occured $onError',
-                                                        );
+                                                        helperController.showToast(
+                                                            title:
+                                                                'Some error occured $onError',
+                                                            color: Colors.red);
                                                       });
                                                     });
                                               },

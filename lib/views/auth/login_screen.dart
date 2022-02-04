@@ -118,12 +118,13 @@ class LoginScreen extends StatelessWidget {
                           passwordtextController.text.trim())
                       .then((UserCredential? user) {
                     helperController.showToast(
-                        title: 'Signed in successfully.');
+                        title: 'Signed in successfully.', color: Colors.green);
                     authController.currentUser.value = user!.user;
                     authController.loading.value = false;
                     Get.back();
                   }).catchError((onError) {
-                    helperController.showToast(title: 'Error occured $onError');
+                    helperController.showToast(
+                        title: 'Error occured $onError', color: Colors.red);
                     authController.loading.value = false;
                   });
                 },

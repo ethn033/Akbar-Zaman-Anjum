@@ -13,24 +13,25 @@ class UserModel {
   String? telegram;
   String? about;
   String? gender;
+  String? youtube;
 
   UserModel();
-  UserModel.create({
-    this.name,
-    this.email,
-    this.phone,
-    this.password,
-    this.address,
-    this.image,
-    this.cover,
-    this.bio,
-    this.about,
-    this.facebook,
-    this.telegram,
-    this.tiktok,
-    this.instagram,
-    this.gender,
-  });
+  UserModel.create(
+      {this.name,
+      this.email,
+      this.phone,
+      this.password,
+      this.address,
+      this.image,
+      this.cover,
+      this.bio,
+      this.about,
+      this.facebook,
+      this.telegram,
+      this.tiktok,
+      this.instagram,
+      this.gender,
+      this.youtube});
 
   Map<String, dynamic> toMap() {
     return {
@@ -48,6 +49,7 @@ class UserModel {
       'bio': bio,
       'about': about,
       'gender': gender,
+      'youtube': youtube,
     };
   }
 }

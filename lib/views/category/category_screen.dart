@@ -153,7 +153,8 @@ class CategoryScreen extends StatelessWidget {
                                                       .then((_) {
                                                     helperController.showToast(
                                                         title:
-                                                            'Deleted successfully!');
+                                                            'Deleted successfully!',
+                                                        color: Colors.green);
                                                   });
                                                   categoryController
                                                       .deleting.value = false;

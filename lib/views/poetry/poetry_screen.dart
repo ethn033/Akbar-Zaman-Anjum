@@ -298,7 +298,8 @@ class PoetryScreen extends StatelessWidget {
                                                     .can_copy!) {
                                                   helperController.showToast(
                                                       title:
-                                                          'Sorry, the author does not allow copying of the contents.');
+                                                          'Sorry, the author does not allow copying of the contents.',
+                                                      color: Colors.red);
                                                   return;
                                                 }
 
@@ -337,11 +338,14 @@ class PoetryScreen extends StatelessWidget {
                                                         .then((_) {
                                                       helperController
                                                           .showToast(
-                                                              title: "Liked!");
+                                                              title: "Liked!",
+                                                              color:
+                                                                  Colors.green);
                                                     }).catchError((onError) {
                                                       helperController.showToast(
                                                           title:
-                                                              "Some error occured.");
+                                                              "Some error occured.",
+                                                          color: Colors.red);
                                                     });
                                                   },
                                                   icon: Icon(
@@ -430,7 +434,8 @@ class PoetryScreen extends StatelessWidget {
                   }
                 }
 
-                helperController.showToast(title: 'Deleted successfully!');
+                helperController.showToast(
+                    title: 'Deleted successfully!', color: Colors.green);
               });
               poetryController.deleting.value = false;
             });

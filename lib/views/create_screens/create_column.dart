@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/columns_controller.dart';
 import 'package:mula_jan_shayeri/controllers/helper_controller.dart';
@@ -103,7 +102,7 @@ class CreateColumnScreen extends StatelessWidget {
                       jsonEncode(quillController.document.toDelta().toJson());
                   if (columnText.isEmpty || columnText.length < 50) {
                     helperController.showToast(
-                        title: 'Please write your article.');
+                        title: 'Please write your article.', color: Colors.red);
                     return;
                   }
                   columnsController.uploading.value = true;
@@ -120,9 +119,11 @@ class CreateColumnScreen extends StatelessWidget {
                   cm.date_created = DateTime.now().millisecondsSinceEpoch;
                   await columnsController.saveColumn(cm).then((value) {
                     print(value);
-                    helperController.showToast(title: 'Saved successfully.');
+                    helperController.showToast(
+                        title: 'Saved successfully.', color: Colors.green);
                   }).catchError((error) {
-                    helperController.showToast(title: 'Error occured : $error');
+                    helperController.showToast(
+                        title: 'Error occured : $error', color: Colors.red);
                   });
                   columnsController.uploading.value = false;
                 },
