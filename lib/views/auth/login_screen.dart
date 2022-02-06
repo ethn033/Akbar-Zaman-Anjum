@@ -20,13 +20,17 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          padding: EdgeInsets.all(30),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(30),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 padding: EdgeInsets.all(10),
@@ -69,13 +73,19 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              Text(
+                "Login Form",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  "Login Form",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+                padding: const EdgeInsets.all(8.0),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Text(
+                    "دا یوازې د دې اپلیکیشن لیکوال / شاعر / مالک لپاره د ننوتلو سکرین دی. تاسو باید ننوتل مه کوئ که تاسو د دې اپلیکیشن مالک نه یاست. مننه",
                   ),
                 ),
               ),
