@@ -37,6 +37,9 @@ class SettingController extends GetxController {
           phone: snapshot.get("phone") ?? '',
           telegram: snapshot.get("telegram") ?? '',
           about: snapshot.get("about") ?? '',
+          youtube: snapshot.get("youtube") ?? '',
+          twitter: snapshot.get("twitter") ?? '',
+          gender: snapshot.get("gender") ?? '',
         );
       } else {
         await feedInitialData();
@@ -72,10 +75,12 @@ class SettingController extends GetxController {
       instagram: '',
       tiktok: '',
       password: '',
-      phone: '+92 0323 0123XXX',
+      phone: '',
       telegram: '',
-      about: 'Some long description about the owner of this app.',
+      about: '',
       youtube: '',
+      twitter: '',
+      gender: '',
     );
     await FirebaseFirestore.instance
         .collection("settings")

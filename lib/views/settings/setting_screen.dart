@@ -21,23 +21,21 @@ class SettingScrreen extends StatelessWidget {
   AuthController authController = Get.find();
   late quill.QuillController quillController;
   TextEditingController bioTextController = new TextEditingController();
+  TextEditingController facebookTextController = new TextEditingController();
+  TextEditingController twitterTextController = new TextEditingController();
+  TextEditingController youtubeTextController = new TextEditingController();
+  TextEditingController tiktokTextController = new TextEditingController();
+  TextEditingController instagramTextController = new TextEditingController();
+  TextEditingController telegramTextController = new TextEditingController();
+  TextEditingController phoneTextController = new TextEditingController();
 
   static const keyName = 'name-key';
-  static const keyBio = 'bio-key';
   static const keyPhone = 'phone-key';
   static const keyAddress = 'address-key';
   static const keyAbout = 'about-key';
   static const keyFeebdack = 'feedback-key';
   static const keyIdFeebdack = 'feedback-id-key';
   static const keyDarkMode = 'dark-mode-key';
-
-  //social media enabled keys
-  static const keyEnableFacebook = 'enable-facebook-key';
-  static const keyEnableInstagram = 'enable-instagram-key';
-  static const keyEnableTelegram = 'enable-telegram-key';
-  static const keyEnableTiktok = 'enable-tiktok-key';
-  static const keyEnableYoutube = 'enable-youtube-key';
-  static const keyEnableTwitter = 'enable-twitter-key';
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,8 @@ class SettingScrreen extends StatelessWidget {
                       subtitle: 'Name, Status message, About',
                       leading: CircleAvatar(
                         backgroundImage: CachedNetworkImageProvider(
-                            settingController.userModel.value.image ?? ""),
+                          settingController.userModel.value.image ?? "",
+                        ),
                       ),
                       child: SettingsScreen(
                         title: 'Account Settings',
@@ -190,67 +189,321 @@ class SettingScrreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SimpleSettingsTile(
-                      title: 'Tiles Setting',
-                      subtitle: 'Home screen tiles',
-                      leading: Container(
-                          padding: EdgeInsets.all(9),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.purple),
-                          child: Icon(
-                            Icons.dashboard,
-                            color: Colors.white,
-                          )),
-                      child: SettingsScreen(
-                        title: 'Tiles Setting',
-                        children: [],
-                      ),
-                    ),
-                    // ExpandableSettingsTile(
-                    //   title: 'Social Media Links',
-                    //   subtitle: 'Set links of your social media accounts',
-                    //   leading: Container(
-                    //     padding: EdgeInsets.all(9),
-                    //     decoration: BoxDecoration(
-                    //       shape: BoxShape.circle,
-                    //       color: Colors.blue,
-                    //     ),
-                    //     child: Icon(
-                    //       Icons.social_distance,
-                    //       color: Colors.white,
-                    //     ),
-                    //   ),
-                    //   children: <Widget>[
-                    //     SwitchSettingsTile(
-                    //       settingKey: keyEnableFacebook,
-                    //       title: 'Facebook',
-                    //       enabledLabel: 'Enabled',
-                    //       disabledLabel: 'Disabled',
-                    //       leading: Icon(Icons.facebook),
-                    //       onChange: (val) {},
-                    //     ),
-                    //     SwitchSettingsTile(
-                    //       settingKey: keyEnableTwitter,
-                    //       title: 'Twitter',
-                    //       enabledLabel: 'Enabled',
-                    //       disabledLabel: 'Disabled',
-                    //       leading: Container(
-                    //           height: 20,
-                    //           width: 20,
-                    //           clipBehavior: Clip.hardEdge,
-                    //           padding: EdgeInsets.all(1),
-                    //           decoration: BoxDecoration(
-                    //             shape: BoxShape.circle,
-                    //             color: Colors.blue,
-                    //           ),
-                    //           child: Image.asset(
-                    //             'assets/images/twitter_icon.png',
-                    //             fit: BoxFit.fill,
-                    //           )),
-                    //       onChange: (val) {},
-                    //     ),
-                    //   ],
-                    // ),
+                    Obx(() => authController.currentUser.value != null
+                        ? SimpleSettingsTile(
+                            title: 'Social Links',
+                            subtitle: 'Add your social links',
+                            leading:
+                                Image.asset('assets/images/social_icon.png'),
+                            child: SettingsScreen(
+                              title: 'Social links',
+                              children: [
+                                ListTile(
+                                  title: Text('Whatsapp'),
+                                  leading: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/whatsapp_icon.png'),
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  subtitle: Obx(() =>
+                                      settingController.userModel.value.phone !=
+                                                  null &&
+                                              settingController
+                                                      .userModel.value.phone !=
+                                                  ''
+                                          ? Text(settingController
+                                              .userModel.value.phone!)
+                                          : Text('No whatsapp provided.')),
+                                  onTap: () async =>
+                                      await helperController.showDialog(
+                                    title: 'Whatsapp number',
+                                    middleText: 'Update Whatsapp number',
+                                    content: TextFormField(
+                                      enabled: true,
+                                      onChanged: (val) {
+                                        phoneTextController.text = val;
+                                      },
+                                      maxLines: 1,
+                                      autofocus: false,
+                                      initialValue: settingController
+                                              .userModel.value.phone ??
+                                          '',
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter whatsapp number',
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter Whatsapp number",
+                                      ),
+                                    ),
+                                    onPressedConfirm: () async {
+                                      Get.back();
+                                      await helperController.showLoadingDialog(
+                                          title: 'Saving..');
+                                      await settingController.updateUser(
+                                          helperController: helperController,
+                                          data: {
+                                            'phone':
+                                                phoneTextController.text.trim()
+                                          });
+                                      Get.back();
+                                    },
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text('Facebook'),
+                                  leading: Icon(
+                                    Icons.facebook,
+                                    color: Colors.blue,
+                                    size: 45,
+                                  ),
+                                  subtitle: Obx(() => settingController
+                                                  .userModel.value.facebook !=
+                                              null &&
+                                          settingController
+                                                  .userModel.value.facebook !=
+                                              ''
+                                      ? Text(settingController
+                                          .userModel.value.facebook!)
+                                      : Text('No link provided.')),
+                                  onTap: () async =>
+                                      await helperController.showDialog(
+                                    title: 'Facebook link',
+                                    middleText: 'Update Facebook link',
+                                    content: TextFormField(
+                                      enabled: true,
+                                      onChanged: (val) {
+                                        facebookTextController.text = val;
+                                      },
+                                      maxLines: 1,
+                                      autofocus: false,
+                                      initialValue: settingController
+                                              .userModel.value.facebook ??
+                                          '',
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter facebook link',
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter Facebook link",
+                                      ),
+                                    ),
+                                    onPressedConfirm: () async {
+                                      Get.back();
+                                      await helperController.showLoadingDialog(
+                                          title: 'Saving..');
+                                      await settingController.updateUser(
+                                          helperController: helperController,
+                                          data: {
+                                            'facebook': facebookTextController
+                                                .text
+                                                .trim()
+                                          });
+                                      Get.back();
+                                    },
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text('Twitter'),
+                                  leading: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/twitter_icon.png'),
+                                  ),
+                                  subtitle: Obx(() => settingController
+                                                  .userModel.value.twitter !=
+                                              null &&
+                                          settingController
+                                                  .userModel.value.twitter !=
+                                              ''
+                                      ? Text(settingController
+                                          .userModel.value.twitter!)
+                                      : Text('No link provided.')),
+                                  onTap: () async =>
+                                      await helperController.showDialog(
+                                    title: 'Twitter link',
+                                    middleText: 'Update Twitter link',
+                                    content: TextFormField(
+                                      enabled: true,
+                                      onChanged: (val) {
+                                        twitterTextController.text = val;
+                                      },
+                                      maxLines: 1,
+                                      autofocus: false,
+                                      initialValue: settingController
+                                              .userModel.value.twitter ??
+                                          '',
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter twitter link',
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter Twitter link",
+                                      ),
+                                    ),
+                                    onPressedConfirm: () async {
+                                      Get.back();
+                                      await helperController.showLoadingDialog(
+                                          title: 'Saving..');
+                                      await settingController.updateUser(
+                                          helperController: helperController,
+                                          data: {
+                                            'twitter': twitterTextController
+                                                .text
+                                                .trim()
+                                          });
+                                      Get.back();
+                                    },
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text('Instagram'),
+                                  leading: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/instagram_icon.png'),
+                                  ),
+                                  subtitle: Obx(() => settingController
+                                                  .userModel.value.instagram !=
+                                              null &&
+                                          settingController
+                                                  .userModel.value.instagram !=
+                                              ''
+                                      ? Text(settingController
+                                          .userModel.value.instagram!)
+                                      : Text('No link provided.')),
+                                  onTap: () async =>
+                                      await helperController.showDialog(
+                                    title: 'Instagram link',
+                                    middleText: 'Update Instagram link',
+                                    content: TextFormField(
+                                      enabled: true,
+                                      onChanged: (val) {
+                                        instagramTextController.text = val;
+                                      },
+                                      maxLines: 1,
+                                      autofocus: false,
+                                      initialValue: settingController
+                                              .userModel.value.instagram ??
+                                          '',
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter instagram link',
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter Intstagram link",
+                                      ),
+                                    ),
+                                    onPressedConfirm: () async {
+                                      Get.back();
+                                      await helperController.showLoadingDialog(
+                                          title: 'Saving..');
+                                      await settingController.updateUser(
+                                          helperController: helperController,
+                                          data: {
+                                            'instagram': instagramTextController
+                                                .text
+                                                .trim()
+                                          });
+                                      Get.back();
+                                    },
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text('Youtube'),
+                                  leading: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/youtube_icon.png'),
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  subtitle: Obx(() => settingController
+                                                  .userModel.value.youtube !=
+                                              null &&
+                                          settingController
+                                                  .userModel.value.youtube !=
+                                              ''
+                                      ? Text(settingController
+                                          .userModel.value.youtube!)
+                                      : Text('No link provided.')),
+                                  onTap: () async =>
+                                      await helperController.showDialog(
+                                    title: 'Youtube link',
+                                    middleText: 'Update Youtube link',
+                                    content: TextFormField(
+                                      enabled: true,
+                                      onChanged: (val) {
+                                        youtubeTextController.text = val;
+                                      },
+                                      maxLines: 1,
+                                      autofocus: false,
+                                      initialValue: settingController
+                                              .userModel.value.youtube ??
+                                          '',
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter youtube link',
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter Youtube link",
+                                      ),
+                                    ),
+                                    onPressedConfirm: () async {
+                                      Get.back();
+                                      await helperController.showLoadingDialog(
+                                          title: 'Saving..');
+                                      await settingController.updateUser(
+                                          helperController: helperController,
+                                          data: {
+                                            'youtube': youtubeTextController
+                                                .text
+                                                .trim()
+                                          });
+                                      Get.back();
+                                    },
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text('Tiktok'),
+                                  leading: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/tiktok_icon.png'),
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  subtitle: Obx(() => settingController
+                                                  .userModel.value.tiktok !=
+                                              null &&
+                                          settingController
+                                                  .userModel.value.tiktok !=
+                                              ''
+                                      ? Text(settingController
+                                          .userModel.value.tiktok!)
+                                      : Text('No link provided.')),
+                                  onTap: () async =>
+                                      await helperController.showDialog(
+                                    title: 'Tiktok link',
+                                    middleText: 'Update Tiktok link',
+                                    content: TextFormField(
+                                      enabled: true,
+                                      onChanged: (val) {
+                                        tiktokTextController.text = val;
+                                      },
+                                      maxLines: 1,
+                                      autofocus: false,
+                                      initialValue: settingController
+                                              .userModel.value.tiktok ??
+                                          '',
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter tiktok link',
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter Tiktok link",
+                                      ),
+                                    ),
+                                    onPressedConfirm: () async {
+                                      Get.back();
+                                      await helperController.showLoadingDialog(
+                                          title: 'Saving..');
+                                      await settingController.updateUser(
+                                          helperController: helperController,
+                                          data: {
+                                            'tiktok':
+                                                tiktokTextController.text.trim()
+                                          });
+                                      Get.back();
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox()),
                   ])
                 : SizedBox()),
             SettingsGroup(

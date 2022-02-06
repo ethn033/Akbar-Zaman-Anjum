@@ -31,29 +31,18 @@ class HelperController extends GetxController {
     required Function() onPressedConfirm,
   }) async {
     await Get.defaultDialog(
-      title: title,
-      middleText: middleText,
-      textConfirm: "Confirm",
-      textCancel: "Cancel",
-      barrierDismissible: false,
-      content: content,
-      confirm: OutlinedButton(
-        onPressed: onPressedConfirm,
-        child: Text("Confirm"),
-        style: ButtonStyle(
-          backgroundColor: buttonColor == null
-              ? MaterialStateProperty.all<Color>(Colors.red)
-              : MaterialStateProperty.all<Color>(Colors.blue),
-        ),
-      ),
-      cancel: OutlinedButton(
-        onPressed: () => Get.back(),
-        child: Text("Cancel"),
-        style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-        ),
-      ),
-    );
+        title: title,
+        middleText: middleText,
+        textConfirm: "Confirm",
+        textCancel: "Cancel",
+        barrierDismissible: false,
+        content: content,
+        confirm: TextButton(
+            onPressed: onPressedConfirm,
+            child: Text("Confirm", style: TextStyle(color: Colors.green))),
+        cancel: TextButton(
+            onPressed: () => Get.back(),
+            child: Text("Cancel", style: TextStyle(color: Colors.red))));
   }
 
   showLoadingDialog({
