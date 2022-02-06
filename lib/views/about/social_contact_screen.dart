@@ -17,60 +17,64 @@ class SocialScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('اړیکې'),
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            width: double.infinity,
-            height: size.height / 6,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white,
-                  width: 5,
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              width: double.infinity,
+              height: size.height / 6,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 5,
+                  ),
                 ),
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  Get.to(
-                    () => ShowFullScreenImage(
-                      tag: "profileImage",
-                      url: settingController.userModel.value.image ?? "",
-                    ),
-                  );
-                },
-                child: Hero(
-                  tag: "profileImage",
-                  child: Obx(
-                    () => CachedNetworkImage(
-                      imageUrl: settingController.userModel.value.image ?? "",
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => ShowFullScreenImage(
+                        tag: "profileImage",
+                        url: settingController.userModel.value.image ?? "",
                       ),
-                      placeholder: (context, url) => Container(
-                        color: Colors.grey,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.grey[400],
-                          ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/no_image.jpg",
+                    );
+                  },
+                  child: Hero(
+                    tag: "profileImage",
+                    child: Obx(
+                      () => CachedNetworkImage(
+                        imageUrl: settingController.userModel.value.image ?? "",
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.contain,
                             ),
-                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        placeholder: (context, url) => Container(
+                          color: Colors.grey,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.grey[400],
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                "assets/images/no_image.jpg",
+                              ),
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
@@ -79,25 +83,33 @@ class SocialScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          Obx(
-            () => Column(
-              children: [
-                Text(
-                  settingController.userModel.value.name ?? 'Loding..',
-                  style: TextStyle(
-                    fontSize: 23,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+            Obx(
+              () => Column(
+                children: [
+                  Text(
+                    settingController.userModel.value.name ?? 'Loding..',
+                    style: TextStyle(
+                      fontSize: 23,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SocialContact(),
-              ],
+                  Container(
+                    padding: EdgeInsets.only(right: 10, bottom: 10),
+                    width: double.infinity,
+                    child: Text(
+                      'د دې ټولنیز اړیکو لینک په کارولو سره، تاسو کولی شئ د لیکوال ${settingController.userModel.value.name!} سره اړیکه ونیسئ.',
+                      style: TextStyle(fontSize: 18, color: Colors.grey[900]),
+                    ),
+                  ),
+                  SocialContact(),
+                ],
+              ),
             ),
-          ),
 
-          // General Info
-        ],
+            // General Info
+          ],
+        ),
       ),
     );
   }

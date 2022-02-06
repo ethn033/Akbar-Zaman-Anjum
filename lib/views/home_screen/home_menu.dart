@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mula_jan_shayeri/controllers/helper_controller.dart';
 import 'package:mula_jan_shayeri/views/columns/columns_screen.dart';
+import 'package:mula_jan_shayeri/views/gallery/gallery_screen.dart';
 import 'package:mula_jan_shayeri/views/poetry/poetry_screen.dart';
 import 'package:mula_jan_shayeri/views/profile/about_author_screen.dart';
 import 'package:mula_jan_shayeri/views/books_screens/boooks_screen.dart';
@@ -76,11 +77,10 @@ class HomeMenu extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
-            child: HomeCard(
-              title: "معلومات",
-              icon: Icons.info,
-            ),
+            onTap: () {
+              Get.to(() => AuthorGalleryScreen());
+            },
+            child: HomeCard(title: "ګالری", icon: Icons.image_rounded),
           ),
           InkWell(
             onTap: () {

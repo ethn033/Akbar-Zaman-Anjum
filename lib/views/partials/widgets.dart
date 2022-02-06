@@ -16,12 +16,8 @@ class HomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      // clipBehavior: Clip.none,
       elevation: 0.3,
       color: color.withOpacity(0.3),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
       child: Column(
         children: [
           Expanded(
@@ -128,8 +124,7 @@ class SocialContact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonBar(
-      alignment: MainAxisAlignment.center,
+    return Wrap(
       children: <Widget>[
         IconButton(
           icon: Icon(
@@ -137,9 +132,10 @@ class SocialContact extends StatelessWidget {
             color: Colors.blue,
           ),
           onPressed: () async {
-            if (settingController.userModel.value.facebook!.isEmpty) {
+            if (settingController.userModel.value.facebook == null ||
+                settingController.userModel.value.facebook!.isEmpty) {
               helperController.showToast(
-                  title: "Sorry, author Facebook is not found.",
+                  title: "Sorry, author Facebook link is not found.",
                   color: Colors.red);
               return;
             }
@@ -149,11 +145,42 @@ class SocialContact extends StatelessWidget {
           iconSize: 40,
         ),
         IconButton(
-          icon: Image.asset('assets/images/whtsapp_icon.png'),
+          icon: Image.asset('assets/images/youtube_icon.png'),
           onPressed: () async {
-            if (settingController.userModel.value.phone!.isEmpty) {
+            if (settingController.userModel.value.youtube == null ||
+                settingController.userModel.value.youtube!.isEmpty) {
               helperController.showToast(
-                  title: "Sorry, author number is not found.",
+                  title: "Sorry, Author's Youtube link is not found.",
+                  color: Colors.red);
+              return;
+            }
+            await helperController
+                .launchUrl(settingController.userModel.value.youtube!);
+          },
+          iconSize: 40,
+        ),
+        IconButton(
+          icon: Image.asset('assets/images/twitter_icon.png'),
+          onPressed: () async {
+            if (settingController.userModel.value.twitter == null ||
+                settingController.userModel.value.twitter!.isEmpty) {
+              helperController.showToast(
+                  title: "Sorry, Author's Twitter link is not found.",
+                  color: Colors.red);
+              return;
+            }
+            await helperController
+                .launchUrl(settingController.userModel.value.twitter!);
+          },
+          iconSize: 40,
+        ),
+        IconButton(
+          icon: Image.asset('assets/images/whatsapp_icon.png'),
+          onPressed: () async {
+            if (settingController.userModel.value.phone == null ||
+                settingController.userModel.value.phone!.isEmpty) {
+              helperController.showToast(
+                  title: "Sorry, Author's Whatsapp is not found.",
                   color: Colors.red);
               return;
             }
@@ -168,9 +195,10 @@ class SocialContact extends StatelessWidget {
             color: Colors.blue,
           ),
           onPressed: () async {
-            if (settingController.userModel.value.phone!.isEmpty) {
+            if (settingController.userModel.value.phone == null ||
+                settingController.userModel.value.phone!.isEmpty) {
               helperController.showToast(
-                  title: "Sorry, author number is not found.",
+                  title: "Sorry, Author's number is not found.",
                   color: Colors.red);
               return;
             }
@@ -182,9 +210,10 @@ class SocialContact extends StatelessWidget {
         IconButton(
           icon: Image.asset('assets/images/telegram_icon.png'),
           onPressed: () async {
-            if (settingController.userModel.value.telegram!.isEmpty) {
+            if (settingController.userModel.value.telegram == null ||
+                settingController.userModel.value.telegram!.isEmpty) {
               helperController.showToast(
-                  title: "Sorry, author number is not found.",
+                  title: "Sorry, Author's Telegram is not found.",
                   color: Colors.red);
               return;
             }
@@ -192,6 +221,36 @@ class SocialContact extends StatelessWidget {
                 .launchUrl(settingController.userModel.value.telegram!);
           },
           iconSize: 35,
+        ),
+        IconButton(
+          icon: Image.asset('assets/images/instagram_icon.png'),
+          onPressed: () async {
+            if (settingController.userModel.value.instagram == null ||
+                settingController.userModel.value.instagram!.isEmpty) {
+              helperController.showToast(
+                  title: "Sorry, Author's Instagram link is not found.",
+                  color: Colors.red);
+              return;
+            }
+            await helperController
+                .launchUrl(settingController.userModel.value.instagram!);
+          },
+          iconSize: 40,
+        ),
+        IconButton(
+          icon: Image.asset('assets/images/tiktok_icon.png'),
+          onPressed: () async {
+            if (settingController.userModel.value.tiktok == null ||
+                settingController.userModel.value.tiktok!.isEmpty) {
+              helperController.showToast(
+                  title: "Sorry, Author's Tiktok link is not found.",
+                  color: Colors.red);
+              return;
+            }
+            await helperController
+                .launchUrl(settingController.userModel.value.tiktok!);
+          },
+          iconSize: 40,
         ),
       ],
     );

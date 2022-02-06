@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
       defaultValue: false,
       builder: (_, isDarkMood, __) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: "Literature App",
+        title: "Akbar Zaman Anjum",
         theme: !isDarkMood
             ? ThemeData(
                 outlinedButtonTheme: OutlinedButtonThemeData(

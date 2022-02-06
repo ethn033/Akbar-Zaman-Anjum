@@ -350,6 +350,56 @@ class SettingScrreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
+                                  title: Text('Telegram'),
+                                  leading: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/telegram_icon.png'),
+                                  ),
+                                  subtitle: Obx(() => settingController
+                                                  .userModel.value.telegram !=
+                                              null &&
+                                          settingController
+                                                  .userModel.value.telegram !=
+                                              ''
+                                      ? Text(settingController
+                                          .userModel.value.telegram!)
+                                      : Text('No link provided.')),
+                                  onTap: () async =>
+                                      await helperController.showDialog(
+                                    title: 'Telegram link',
+                                    middleText: 'Update Telegram link',
+                                    content: TextFormField(
+                                      enabled: true,
+                                      onChanged: (val) {
+                                        telegramTextController.text = val;
+                                      },
+                                      maxLines: 1,
+                                      autofocus: false,
+                                      initialValue: settingController
+                                              .userModel.value.telegram ??
+                                          '',
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter telegram link',
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter Telegram link",
+                                      ),
+                                    ),
+                                    onPressedConfirm: () async {
+                                      Get.back();
+                                      await helperController.showLoadingDialog(
+                                          title: 'Saving..');
+                                      await settingController.updateUser(
+                                          helperController: helperController,
+                                          data: {
+                                            'telegram': twitterTextController
+                                                .text
+                                                .trim()
+                                          });
+                                      Get.back();
+                                    },
+                                  ),
+                                ),
+                                ListTile(
                                   title: Text('Instagram'),
                                   leading: CircleAvatar(
                                     backgroundImage: AssetImage(
