@@ -30,57 +30,54 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Obx(
-          () => Text(settingController.userModel.value.name ?? "..Loading"),
-        ),
-        actions: [
-          PopupMenuButton(
-            icon: Icon(
-              Icons.settings,
-            ),
-            onSelected: (String val) => settingsClicked(val),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'setting',
-                child: Text(
-                  'Settings',
-                ),
-              ),
-              PopupMenuItem(
-                value: 'share',
-                child: Text(
-                  'Share App',
-                ),
-              ),
-              PopupMenuItem(
-                value: 'rateus',
-                child: Text(
-                  'Rate Us',
-                ),
-              ),
-              PopupMenuItem(
-                value: 'about',
-                child: Text(
-                  'About Us',
-                ),
-              ),
-            ],
+        appBar: AppBar(
+          title: Obx(
+            () => Text(settingController.userModel.value.name ?? "..Loading"),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
+          actions: [
+            PopupMenuButton(
+              icon: Icon(
+                Icons.settings,
+              ),
+              onSelected: (String val) => settingsClicked(val),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'setting',
+                  child: Text(
+                    'Settings',
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'share',
+                  child: Text(
+                    'Share App',
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'rateus',
+                  child: Text(
+                    'Rate Us',
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'about',
+                  child: Text(
+                    'About Us',
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
-                height: size.height / 3,
-                margin: EdgeInsets.only(left: 13, right: 13, top: 8),
-                child: Stack(
-                  children: [
+                  height: size.height / 3,
+                  margin: EdgeInsets.only(left: 13, right: 13, top: 8),
+                  child: Stack(children: [
                     //cover photo
                     CoverWidget(
                       size: size,
@@ -90,35 +87,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     // image photo
                     ImageWidget(
-                      size: size,
-                      helperController: helperController,
-                      settingController: settingController,
-                      authController: authController,
-                    ),
-                  ],
-                ),
-              ),
+                        size: size,
+                        helperController: helperController,
+                        settingController: settingController,
+                        authController: authController),
+                  ])),
               Obx(
-                () => Flexible(
-                    child: Text(
-                  settingController.userModel.value.name ?? 'Loding..',
-                  style: TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
+                () => Text(settingController.userModel.value.name ?? 'Loding..',
+                    style: TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
+                    )),
               ),
               BioWidget(settingController: settingController),
-              SizedBox(
-                height: 15,
-              ),
-              HomeMenu(helperController: helperController),
+              SizedBox(height: 15),
+              HomeMenu(helperController: helperController)
             ],
           ),
         ),
-      ),
-      drawer: NavDrawer(auth: authController, setting: settingController),
-    );
+        drawer: NavDrawer(auth: authController, setting: settingController));
   }
 
   settingsClicked(String val) async {

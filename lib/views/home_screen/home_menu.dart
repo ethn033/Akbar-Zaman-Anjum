@@ -22,85 +22,82 @@ class HomeMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: GridView.count(
-        padding: EdgeInsets.only(left: 10, right: 10),
-        physics: ScrollPhysics(),
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        childAspectRatio: 1.0,
-        children: [
-          InkWell(
-            onTap: () {
-              Get.to(() => BioScreen());
-            },
-            child: HomeCard(
-              title: "پیژندنه",
-              icon: Icons.info_rounded,
-            ),
+    return GridView.count(
+      padding: EdgeInsets.only(left: 10, right: 10),
+      physics: ScrollPhysics(),
+      shrinkWrap: true,
+      crossAxisCount: 2,
+      childAspectRatio: 1.0,
+      children: [
+        InkWell(
+          onTap: () {
+            Get.to(() => BioScreen());
+          },
+          child: HomeCard(
+            title: "پیژندنه",
+            icon: Icons.info_rounded,
           ),
-          InkWell(
-            onTap: () {
-              Get.to(() => PoetryScreen());
-            },
-            child: HomeCard(
-              title: "شاعري",
-              icon: Icons.text_snippet_outlined,
-            ),
+        ),
+        InkWell(
+          onTap: () {
+            Get.to(() => PoetryScreen());
+          },
+          child: HomeCard(
+            title: "شاعري",
+            icon: Icons.text_snippet_outlined,
           ),
-          InkWell(
-            onTap: () {
-              Get.to(() => BooksScreen());
-            },
-            child: HomeCard(
-              title: "کتابونه",
-              icon: Icons.book,
-            ),
+        ),
+        InkWell(
+          onTap: () {
+            Get.to(() => BooksScreen());
+          },
+          child: HomeCard(
+            title: "کتابونه",
+            icon: Icons.book,
           ),
-          InkWell(
-            onTap: () {
-              Get.to(() => ColumnScreen());
-            },
-            child: HomeCard(
-              title: "مقالې/ لیکنې",
-              icon: Icons.link,
-            ),
+        ),
+        InkWell(
+          onTap: () {
+            Get.to(() => ColumnScreen());
+          },
+          child: HomeCard(
+            title: "مقالې/ لیکنې",
+            icon: Icons.link,
           ),
-          InkWell(
-            onTap: () {
-              Get.to(() => SocialScreen());
-            },
-            child: HomeCard(
-              title: "اړیکې",
-              icon: Icons.link,
-            ),
+        ),
+        InkWell(
+          onTap: () {
+            Get.to(() => SocialScreen());
+          },
+          child: HomeCard(
+            title: "اړیکې",
+            icon: Icons.link,
           ),
-          InkWell(
-            onTap: () {
-              Get.to(() => AuthorGalleryScreen());
-            },
-            child: HomeCard(title: "ګالری", icon: Icons.image_rounded),
+        ),
+        InkWell(
+          onTap: () {
+            Get.to(() => AuthorGalleryScreen());
+          },
+          child: HomeCard(title: "ګالری", icon: Icons.image_rounded),
+        ),
+        InkWell(
+          onTap: () {
+            if (Platform.isAndroid) {
+              helperController.showDialog(
+                title: 'Exit App',
+                middleText: 'Do you want to exit?',
+                onPressedConfirm: () {
+                  SystemNavigator.pop();
+                },
+              );
+            }
+          },
+          child: HomeCard(
+            title: "بند کړه",
+            icon: Icons.exit_to_app,
           ),
-          InkWell(
-            onTap: () {
-              if (Platform.isAndroid) {
-                helperController.showDialog(
-                  title: 'Exit App',
-                  middleText: 'Do you want to exit?',
-                  onPressedConfirm: () {
-                    SystemNavigator.pop();
-                  },
-                );
-              }
-            },
-            child: HomeCard(
-              title: "بند کړه",
-              icon: Icons.exit_to_app,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

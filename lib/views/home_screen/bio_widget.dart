@@ -15,15 +15,13 @@ class BioWidget extends StatelessWidget {
     return Obx(
       () => Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Flexible(
-          child: Text(
-            settingController.userModel.value.bio ?? '..Loding',
-            overflow: TextOverflow.ellipsis,
-            maxLines: 3,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.grey[500],
-            ),
+        child: Text(
+          settingController.userModel.value.bio ?? '..Loding',
+          overflow: TextOverflow.ellipsis,
+          maxLines: 3,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.grey[500],
           ),
         ),
       ),
