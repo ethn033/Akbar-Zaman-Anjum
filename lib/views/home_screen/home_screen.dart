@@ -44,13 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
               PopupMenuItem(
                 value: 'setting',
                 child: Text(
-                  'Setting',
+                  'Settings',
                 ),
               ),
               PopupMenuItem(
                 value: 'share',
                 child: Text(
                   'Share App',
+                ),
+              ),
+              PopupMenuItem(
+                value: 'rateus',
+                child: Text(
+                  'Rate Us',
                 ),
               ),
               PopupMenuItem(
@@ -120,6 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'share':
         {
           await helperController.shareApp();
+          break;
+        }
+      case 'rateus':
+        {
+          await helperController.rateUs();
           break;
         }
       case 'about':

@@ -13,6 +13,7 @@ import 'package:mula_jan_shayeri/controllers/widets_controller.dart';
 import 'package:mula_jan_shayeri/views/about/about_screen.dart';
 import 'package:mula_jan_shayeri/views/auth/login_screen.dart';
 import 'package:mula_jan_shayeri/views/profile/full_screen_image.dart';
+import 'package:mula_jan_shayeri/views/settings/setting_screen.dart';
 import 'package:package_info/package_info.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -102,8 +103,8 @@ class NavDrawer extends StatelessWidget {
                     return Text('Loading..');
                   }
                   return Text(
-                    'Version ${packageInfo.data!.version}',
-                    style: TextStyle(fontSize: 12),
+                    setting.userModel.value.name ?? 'Loading..',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   );
                 },
               )),
@@ -122,45 +123,16 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.favorite),
             title: Text('Favourite Poetry'),
             onTap: () async {
-              Navigator.pop(context);
+              Get.back();
             },
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: Text(
-              "Communication",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Obx(
-            () => ListTile(
-              dense: true,
-              leading: auth.currentUser.value == null
-                  ? Icon(Icons.login)
-                  : Icon(Icons.logout),
-              title: auth.currentUser.value == null
-                  ? Text('Login')
-                  : Text('Logout'),
-              onTap: () async {
-                Navigator.pop(context);
-                auth.currentUser.value == null
-                    ? Get.to(
-                        () => LoginScreen(),
-                      )
-                    : auth.logoutUser();
-              },
-            ),
           ),
           ListTile(
             dense: true,
-            leading: Icon(Icons.share),
-            title: Text('Share App'),
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
             onTap: () async {
               Get.back();
-              await helperController.shareApp();
+              Get.to(() => SettingScrreen());
             },
           ),
           Divider(),
@@ -172,6 +144,24 @@ class NavDrawer extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+          ListTile(
+            dense: true,
+            leading: Icon(Icons.star),
+            title: Text('Rate Us'),
+            onTap: () async {
+              Get.back();
+              await helperController.rateUs();
+            },
+          ),
+          ListTile(
+            dense: true,
+            leading: Icon(Icons.share),
+            title: Text('Share App'),
+            onTap: () async {
+              Get.back();
+              await helperController.shareApp();
+            },
           ),
           ListTile(
             dense: true,
@@ -231,6 +221,43 @@ class NavDrawer extends StatelessWidget {
               Get.back();
               Get.to(() => AboutScreen());
             },
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              "Author Login",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Obx(
+            () => ListTile(
+              dense: true,
+              leading: auth.currentUser.value == null
+                  ? Icon(Icons.login)
+                  : Icon(Icons.logout, color: Colors.red),
+              title: auth.currentUser.value == null
+                  ? Text('Login')
+                  : Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.red),
+                    ),
+              onTap: () async {
+                Navigator.pop(context);
+                if (auth.currentUser.value == null) {
+                  Get.to(
+                    () => LoginScreen(),
+                  );
+                } else {
+                  await helperController.showLoadingDialog(
+                      title: 'Logging out..');
+                  await auth.logoutUser();
+                  helperController.hideLoadingDialog();
+                }
+              },
+            ),
           ),
         ],
       ),

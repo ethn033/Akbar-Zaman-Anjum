@@ -181,6 +181,17 @@ class HelperController extends GetxController {
     }
   }
 
+  Future<void> rateUs() async {
+    var pckgInfo = await getPackageInfo();
+    String url =
+        'https://play.google.com/store/apps/details?id=${pckgInfo!.packageName}';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch';
+    }
+  }
+
   Future<void> launchWhatsapp(String phone, String message) async {
     String uri = "https://wa.me/$phone/?text=${Uri.parse(message)}";
 
