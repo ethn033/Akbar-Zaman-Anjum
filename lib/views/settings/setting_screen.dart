@@ -208,7 +208,7 @@ class SettingScrreen extends StatelessWidget {
                                 ListTile(
                                   title: Text('Whatsapp Number'),
                                   leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
+                                    child: Image.asset(
                                         'assets/images/whatsapp_icon.png'),
                                     backgroundColor: Colors.white,
                                   ),
@@ -258,10 +258,9 @@ class SettingScrreen extends StatelessWidget {
                                 ListTile(
                                   title: Text('Facebook Link'),
                                   leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        'assets/images/facebook_icon.png'),
-                                    backgroundColor: Colors.white,
-                                  ),
+                                      child: Image.asset(
+                                          'assets/images/facebook_icon.png'),
+                                      backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
                                                   .userModel.value.facebook !=
                                               null &&
@@ -309,7 +308,7 @@ class SettingScrreen extends StatelessWidget {
                                 ListTile(
                                   title: Text('Twitter Link'),
                                   leading: CircleAvatar(
-                                      backgroundImage: AssetImage(
+                                      child: Image.asset(
                                           'assets/images/twitter_icon.png'),
                                       backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
@@ -359,7 +358,7 @@ class SettingScrreen extends StatelessWidget {
                                 ListTile(
                                   title: Text('Telegram Link'),
                                   leading: CircleAvatar(
-                                      backgroundImage: AssetImage(
+                                      child: Image.asset(
                                           'assets/images/telegram_icon.png'),
                                       backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
@@ -409,7 +408,7 @@ class SettingScrreen extends StatelessWidget {
                                 ListTile(
                                   title: Text('Instagram Link'),
                                   leading: CircleAvatar(
-                                      backgroundImage: AssetImage(
+                                      child: Image.asset(
                                           'assets/images/instagram_icon.png'),
                                       backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
@@ -459,7 +458,7 @@ class SettingScrreen extends StatelessWidget {
                                 ListTile(
                                   title: Text('Youtube Link'),
                                   leading: CircleAvatar(
-                                      backgroundImage: AssetImage(
+                                      child: Image.asset(
                                         'assets/images/youtube_icon.png',
                                       ),
                                       backgroundColor: Colors.white),
@@ -510,7 +509,7 @@ class SettingScrreen extends StatelessWidget {
                                 ListTile(
                                   title: Text('Tiktok Link'),
                                   leading: CircleAvatar(
-                                      backgroundImage: AssetImage(
+                                      child: Image.asset(
                                           'assets/images/tiktok_icon.png'),
                                       backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
