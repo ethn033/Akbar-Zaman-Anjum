@@ -13,6 +13,7 @@ import 'package:mula_jan_shayeri/controllers/setting_controller.dart';
 import 'package:mula_jan_shayeri/views/about/about_screen.dart';
 import 'package:mula_jan_shayeri/views/auth/login_screen.dart';
 import 'package:mula_jan_shayeri/views/create_screens/create_about.dart';
+import 'package:mula_jan_shayeri/views/references/asset_reference.dart';
 
 class SettingScrreen extends StatelessWidget {
   SettingScrreen({Key? key}) : super(key: key);
@@ -193,13 +194,19 @@ class SettingScrreen extends StatelessWidget {
                         ? SimpleSettingsTile(
                             title: 'Social Links',
                             subtitle: 'Add your social links',
-                            leading:
-                                Image.asset('assets/images/social_icon.png'),
+                            leading: CircleAvatar(
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Image.asset(
+                                    'assets/images/social_icon.png'),
+                              ),
+                              backgroundColor: Colors.amber,
+                            ),
                             child: SettingsScreen(
                               title: 'Social links',
                               children: [
                                 ListTile(
-                                  title: Text('Whatsapp'),
+                                  title: Text('Whatsapp Number'),
                                   leading: CircleAvatar(
                                     backgroundImage: AssetImage(
                                         'assets/images/whatsapp_icon.png'),
@@ -249,11 +256,11 @@ class SettingScrreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title: Text('Facebook'),
-                                  leading: Icon(
-                                    Icons.facebook,
-                                    color: Colors.blue,
-                                    size: 45,
+                                  title: Text('Facebook Link'),
+                                  leading: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/facebook_icon.png'),
+                                    backgroundColor: Colors.white,
                                   ),
                                   subtitle: Obx(() => settingController
                                                   .userModel.value.facebook !=
@@ -300,11 +307,11 @@ class SettingScrreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title: Text('Twitter'),
+                                  title: Text('Twitter Link'),
                                   leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        'assets/images/twitter_icon.png'),
-                                  ),
+                                      backgroundImage: AssetImage(
+                                          'assets/images/twitter_icon.png'),
+                                      backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
                                                   .userModel.value.twitter !=
                                               null &&
@@ -350,11 +357,11 @@ class SettingScrreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title: Text('Telegram'),
+                                  title: Text('Telegram Link'),
                                   leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        'assets/images/telegram_icon.png'),
-                                  ),
+                                      backgroundImage: AssetImage(
+                                          'assets/images/telegram_icon.png'),
+                                      backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
                                                   .userModel.value.telegram !=
                                               null &&
@@ -400,11 +407,11 @@ class SettingScrreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title: Text('Instagram'),
+                                  title: Text('Instagram Link'),
                                   leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        'assets/images/instagram_icon.png'),
-                                  ),
+                                      backgroundImage: AssetImage(
+                                          'assets/images/instagram_icon.png'),
+                                      backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
                                                   .userModel.value.instagram !=
                                               null &&
@@ -450,12 +457,12 @@ class SettingScrreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title: Text('Youtube'),
+                                  title: Text('Youtube Link'),
                                   leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        'assets/images/youtube_icon.png'),
-                                    backgroundColor: Colors.white,
-                                  ),
+                                      backgroundImage: AssetImage(
+                                        'assets/images/youtube_icon.png',
+                                      ),
+                                      backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
                                                   .userModel.value.youtube !=
                                               null &&
@@ -501,12 +508,11 @@ class SettingScrreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
-                                  title: Text('Tiktok'),
+                                  title: Text('Tiktok Link'),
                                   leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        'assets/images/tiktok_icon.png'),
-                                    backgroundColor: Colors.white,
-                                  ),
+                                      backgroundImage: AssetImage(
+                                          'assets/images/tiktok_icon.png'),
+                                      backgroundColor: Colors.white),
                                   subtitle: Obx(() => settingController
                                                   .userModel.value.tiktok !=
                                               null &&
@@ -550,6 +556,8 @@ class SettingScrreen extends StatelessWidget {
                                     },
                                   ),
                                 ),
+                                IconReferences(
+                                    helperController: helperController)
                               ],
                             ),
                           )
@@ -577,34 +585,6 @@ class SettingScrreen extends StatelessWidget {
                 )
               ],
             ),
-            SettingsGroup(title: 'Security', children: [
-              Obx(
-                () => SimpleSettingsTile(
-                  title: authController.currentUser.value != null
-                      ? 'Logout'
-                      : 'Login',
-                  subtitle: authController.currentUser.value != null
-                      ? 'Logout of your account'
-                      : 'Login to Your account',
-                  leading: Container(
-                      padding: EdgeInsets.all(9),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: authController.currentUser.value != null
-                              ? Colors.red
-                              : Colors.green),
-                      child: Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      )),
-                  onTap: () async {
-                    authController.currentUser.value != null
-                        ? await logoutUser()
-                        : Get.to(() => LoginScreen());
-                  },
-                ),
-              ),
-            ]),
             SettingsGroup(title: 'Communication', children: [
               SimpleSettingsTile(
                 title: 'Contact Us',
@@ -670,6 +650,33 @@ class SettingScrreen extends StatelessWidget {
                   ],
                 ),
               ),
+            ]),
+            SettingsGroup(title: 'Account', children: [
+              Obx(() => SimpleSettingsTile(
+                  title: authController.currentUser.value != null
+                      ? 'Logout'
+                      : 'Login',
+                  subtitle: authController.currentUser.value != null
+                      ? 'Logout of your account'
+                      : 'Login to Your account',
+                  leading: Container(
+                      padding: EdgeInsets.all(9),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: authController.currentUser.value != null
+                              ? Colors.red
+                              : Colors.green),
+                      child: Icon(Icons.logout, color: Colors.white)),
+                  onTap: () async {
+                    if (authController.currentUser.value != null) {
+                      await helperController.showLoadingDialog(
+                          title: 'Logging out..');
+                      await logoutUser();
+                      helperController.hideLoadingDialog();
+                    } else {
+                      Get.to(() => LoginScreen());
+                    }
+                  }))
             ])
           ]),
     );

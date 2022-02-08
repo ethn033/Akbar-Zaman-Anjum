@@ -74,17 +74,14 @@ class ContactUs extends StatelessWidget {
       alignment: MainAxisAlignment.center,
       children: <Widget>[
         IconButton(
-          icon: Icon(
-            Icons.facebook,
-            color: Colors.blue,
-          ),
+          icon: Image.asset('assets/images/facebook_icon.png'),
           onPressed: () async {
             await helperController.launchUrl(Constants.devFbUrl);
           },
           iconSize: 40,
         ),
         IconButton(
-          icon: Image.asset('assets/images/whtsapp_icon.png'),
+          icon: Image.asset('assets/images/whatsapp_icon.png'),
           onPressed: () async {
             await helperController.launchWhatsapp(
                 Constants.devPhone, Constants.devMessage);
@@ -92,10 +89,7 @@ class ContactUs extends StatelessWidget {
           iconSize: 40,
         ),
         IconButton(
-          icon: Icon(
-            Icons.message_rounded,
-            color: Colors.blue,
-          ),
+          icon: Image.asset('assets/images/message_icon.png'),
           onPressed: () async {
             await helperController.launchSms(
                 Constants.devPhone, Constants.devMessage);
@@ -115,143 +109,138 @@ class ContactUs extends StatelessWidget {
 }
 
 class SocialContact extends StatelessWidget {
-  SocialContact({
-    Key? key,
-  }) : super(key: key);
+  SocialContact({Key? key, required this.helperController}) : super(key: key);
 
-  final HelperController helperController = Get.find();
+  HelperController helperController;
   final SettingController settingController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.facebook,
-            color: Colors.blue,
+    return Column(
+      children: [
+        Wrap(spacing: 8, runSpacing: 8, children: <Widget>[
+          IconButton(
+            icon: Image.asset('assets/images/facebook_icon.png'),
+            onPressed: () async {
+              if (settingController.userModel.value.facebook == null ||
+                  settingController.userModel.value.facebook!.isEmpty) {
+                helperController.showToast(
+                    title: "Sorry, author Facebook link is not found.",
+                    color: Colors.red);
+                return;
+              }
+              await helperController
+                  .launchUrl(settingController.userModel.value.facebook!);
+            },
+            iconSize: 40,
           ),
-          onPressed: () async {
-            if (settingController.userModel.value.facebook == null ||
-                settingController.userModel.value.facebook!.isEmpty) {
-              helperController.showToast(
-                  title: "Sorry, author Facebook link is not found.",
-                  color: Colors.red);
-              return;
-            }
-            await helperController
-                .launchUrl(settingController.userModel.value.facebook!);
-          },
-          iconSize: 40,
-        ),
-        IconButton(
-          icon: Image.asset('assets/images/youtube_icon.png'),
-          onPressed: () async {
-            if (settingController.userModel.value.youtube == null ||
-                settingController.userModel.value.youtube!.isEmpty) {
-              helperController.showToast(
-                  title: "Sorry, Author's Youtube link is not found.",
-                  color: Colors.red);
-              return;
-            }
-            await helperController
-                .launchUrl(settingController.userModel.value.youtube!);
-          },
-          iconSize: 40,
-        ),
-        IconButton(
-          icon: Image.asset('assets/images/twitter_icon.png'),
-          onPressed: () async {
-            if (settingController.userModel.value.twitter == null ||
-                settingController.userModel.value.twitter!.isEmpty) {
-              helperController.showToast(
-                  title: "Sorry, Author's Twitter link is not found.",
-                  color: Colors.red);
-              return;
-            }
-            await helperController
-                .launchUrl(settingController.userModel.value.twitter!);
-          },
-          iconSize: 40,
-        ),
-        IconButton(
-          icon: Image.asset('assets/images/whatsapp_icon.png'),
-          onPressed: () async {
-            if (settingController.userModel.value.phone == null ||
-                settingController.userModel.value.phone!.isEmpty) {
-              helperController.showToast(
-                  title: "Sorry, Author's Whatsapp is not found.",
-                  color: Colors.red);
-              return;
-            }
-            await helperController.launchWhatsapp(
-                settingController.userModel.value.phone!, Constants.devMessage);
-          },
-          iconSize: 40,
-        ),
-        IconButton(
-          icon: Icon(
-            Icons.message_rounded,
-            color: Colors.blue,
+          IconButton(
+            icon: Image.asset('assets/images/youtube_icon.png'),
+            onPressed: () async {
+              if (settingController.userModel.value.youtube == null ||
+                  settingController.userModel.value.youtube!.isEmpty) {
+                helperController.showToast(
+                    title: "Sorry, Author's Youtube link is not found.",
+                    color: Colors.red);
+                return;
+              }
+              await helperController
+                  .launchUrl(settingController.userModel.value.youtube!);
+            },
+            iconSize: 40,
           ),
-          onPressed: () async {
-            if (settingController.userModel.value.phone == null ||
-                settingController.userModel.value.phone!.isEmpty) {
-              helperController.showToast(
-                  title: "Sorry, Author's number is not found.",
-                  color: Colors.red);
-              return;
-            }
-            await helperController.launchSms(
-                settingController.userModel.value.phone!, Constants.devMessage);
-          },
-          iconSize: 35,
-        ),
-        IconButton(
-          icon: Image.asset('assets/images/telegram_icon.png'),
-          onPressed: () async {
-            if (settingController.userModel.value.telegram == null ||
-                settingController.userModel.value.telegram!.isEmpty) {
-              helperController.showToast(
-                  title: "Sorry, Author's Telegram is not found.",
-                  color: Colors.red);
-              return;
-            }
-            await helperController
-                .launchUrl(settingController.userModel.value.telegram!);
-          },
-          iconSize: 35,
-        ),
-        IconButton(
-          icon: Image.asset('assets/images/instagram_icon.png'),
-          onPressed: () async {
-            if (settingController.userModel.value.instagram == null ||
-                settingController.userModel.value.instagram!.isEmpty) {
-              helperController.showToast(
-                  title: "Sorry, Author's Instagram link is not found.",
-                  color: Colors.red);
-              return;
-            }
-            await helperController
-                .launchUrl(settingController.userModel.value.instagram!);
-          },
-          iconSize: 40,
-        ),
-        IconButton(
-          icon: Image.asset('assets/images/tiktok_icon.png'),
-          onPressed: () async {
-            if (settingController.userModel.value.tiktok == null ||
-                settingController.userModel.value.tiktok!.isEmpty) {
-              helperController.showToast(
-                  title: "Sorry, Author's Tiktok link is not found.",
-                  color: Colors.red);
-              return;
-            }
-            await helperController
-                .launchUrl(settingController.userModel.value.tiktok!);
-          },
-          iconSize: 40,
-        ),
+          IconButton(
+            icon: Image.asset('assets/images/twitter_icon.png'),
+            onPressed: () async {
+              if (settingController.userModel.value.twitter == null ||
+                  settingController.userModel.value.twitter!.isEmpty) {
+                helperController.showToast(
+                    title: "Sorry, Author's Twitter link is not found.",
+                    color: Colors.red);
+                return;
+              }
+              await helperController
+                  .launchUrl(settingController.userModel.value.twitter!);
+            },
+            iconSize: 40,
+          ),
+          IconButton(
+            icon: Image.asset('assets/images/whatsapp_icon.png'),
+            onPressed: () async {
+              if (settingController.userModel.value.phone == null ||
+                  settingController.userModel.value.phone!.isEmpty) {
+                helperController.showToast(
+                    title: "Sorry, Author's Whatsapp is not found.",
+                    color: Colors.red);
+                return;
+              }
+              await helperController.launchWhatsapp(
+                  settingController.userModel.value.phone!,
+                  Constants.devMessage);
+            },
+            iconSize: 40,
+          ),
+          IconButton(
+            icon: Image.asset('assets/images/message_icon.png'),
+            onPressed: () async {
+              if (settingController.userModel.value.phone == null ||
+                  settingController.userModel.value.phone!.isEmpty) {
+                helperController.showToast(
+                    title: "Sorry, Author's number is not found.",
+                    color: Colors.red);
+                return;
+              }
+              await helperController.launchSms(
+                  settingController.userModel.value.phone!,
+                  Constants.devMessage);
+            },
+            iconSize: 35,
+          ),
+          IconButton(
+            icon: Image.asset('assets/images/telegram_icon.png'),
+            onPressed: () async {
+              if (settingController.userModel.value.telegram == null ||
+                  settingController.userModel.value.telegram!.isEmpty) {
+                helperController.showToast(
+                    title: "Sorry, Author's Telegram is not found.",
+                    color: Colors.red);
+                return;
+              }
+              await helperController
+                  .launchUrl(settingController.userModel.value.telegram!);
+            },
+            iconSize: 35,
+          ),
+          IconButton(
+            icon: Image.asset('assets/images/instagram_icon.png'),
+            onPressed: () async {
+              if (settingController.userModel.value.instagram == null ||
+                  settingController.userModel.value.instagram!.isEmpty) {
+                helperController.showToast(
+                    title: "Sorry, Author's Instagram link is not found.",
+                    color: Colors.red);
+                return;
+              }
+              await helperController
+                  .launchUrl(settingController.userModel.value.instagram!);
+            },
+            iconSize: 40,
+          ),
+          IconButton(
+              icon: Image.asset('assets/images/tiktok_icon.png'),
+              onPressed: () async {
+                if (settingController.userModel.value.tiktok == null ||
+                    settingController.userModel.value.tiktok!.isEmpty) {
+                  helperController.showToast(
+                      title: "Sorry, Author's Tiktok link is not found.",
+                      color: Colors.red);
+                  return;
+                }
+                await helperController
+                    .launchUrl(settingController.userModel.value.tiktok!);
+              },
+              iconSize: 40)
+        ])
       ],
     );
   }

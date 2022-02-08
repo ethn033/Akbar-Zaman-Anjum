@@ -9,6 +9,7 @@ import 'package:mula_jan_shayeri/controllers/poetry_controller.dart';
 import 'package:mula_jan_shayeri/controllers/setting_controller.dart';
 import 'package:mula_jan_shayeri/models/poetry_model.dart';
 import 'package:mula_jan_shayeri/views/create_screens/create_poetry.dart';
+import 'package:mula_jan_shayeri/views/search/search_screen.dart';
 
 class PoetryScreen extends StatelessWidget {
   String? categoryId;
@@ -26,7 +27,9 @@ class PoetryScreen extends StatelessWidget {
         title: Text("شاعري"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showSearch(context: context, delegate: Search(type: 'poetry'));
+            },
             icon: Icon(
               Icons.search,
             ),
